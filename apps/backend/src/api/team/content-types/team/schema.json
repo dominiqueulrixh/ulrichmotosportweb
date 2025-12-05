@@ -1,0 +1,32 @@
+{
+  "kind": "singleType",
+  "collectionName": "teams",
+  "info": {
+    "singularName": "team",
+    "pluralName": "teams",
+    "displayName": "Team"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "subheading": {
+      "type": "text"
+    },
+    "members": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.team-member"
+    },
+    "story": {
+      "type": "richtext"
+    }
+  }
+}

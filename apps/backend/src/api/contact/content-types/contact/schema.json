@@ -1,0 +1,38 @@
+{
+  "kind": "singleType",
+  "collectionName": "contact_sections",
+  "info": {
+    "singularName": "contact",
+    "pluralName": "contacts",
+    "displayName": "Contact"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "eyebrow": {
+      "type": "string"
+    },
+    "heading": {
+      "type": "string"
+    },
+    "subheading": {
+      "type": "text"
+    },
+    "cards": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.contact-card"
+    },
+    "mapEmbedUrl": {
+      "type": "text"
+    },
+    "mapLabel": {
+      "type": "string"
+    },
+    "mapDescription": {
+      "type": "text"
+    }
+  }
+}

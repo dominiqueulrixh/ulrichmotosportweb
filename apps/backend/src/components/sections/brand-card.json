@@ -1,0 +1,15 @@
+{
+  "collectionName": "components_sections_brand_cards",
+  "info": {
+    "displayName": "Brand card"
+  },
+  "attributes": {
+    "name": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    }
+  }
+}

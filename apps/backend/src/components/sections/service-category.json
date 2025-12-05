@@ -1,0 +1,26 @@
+{
+  "collectionName": "components_sections_service_categories",
+  "info": {
+    "displayName": "Service category"
+  },
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "type": "media",
+      "multiple": false,
+      "required": false,
+      "allowedTypes": ["images"]
+    },
+    "items": {
+      "type": "component",
+      "repeatable": true,
+      "component": "sections.list-item"
+    }
+  }
+}
