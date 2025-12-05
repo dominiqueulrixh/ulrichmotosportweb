@@ -52,7 +52,7 @@ export function Hero({ onNavigate, content }: HeroProps) {
       <div className="max-w-7xl mx-auto px-4 pb-20 relative z-10 w-full">
         <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
           {/* Text Content - improved hierarchy and spacing */}
-          <div className="space-y-8">
+          <div className="space-y-6 lg:space-y-8">
             {content.eyebrow && (
               <div className="inline-flex items-center gap-3 bg-white dark:bg-zinc-900 px-6 py-3">
                 <div className="w-2 h-2 bg-white dark:bg-zinc-900"></div>
@@ -97,7 +97,7 @@ export function Hero({ onNavigate, content }: HeroProps) {
 
             {/* Stats - Racing Grid Style */}
             {content.stats?.length > 0 && (
-              <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-12 w-full max-w-3xl sm:max-w-4xl">
+              <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-8 lg:pt-12 w-full max-w-3xl sm:max-w-4xl">
                 {content.stats.map((stat, index) => (
                   <div
                     key={`${stat.value}-${index}`}
@@ -127,7 +127,7 @@ export function Hero({ onNavigate, content }: HeroProps) {
 
           {/* Image - clean and focused */}
           <div className="relative">
-            <div className="relative aspect-square max-w-sm mx-auto lg:max-w-[26rem]">
+            <div className="relative aspect-square max-w-sm mx-auto lg:max-w-[26rem] mb-16 lg:mb-0">
               {/* Main image container with rounded corners */}
               <div className="absolute inset-0 bg-zinc-100 dark:bg-zinc-800 rounded-[2rem] overflow-hidden">
                 <ImageWithFallback
