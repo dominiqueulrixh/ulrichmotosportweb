@@ -103,29 +103,6 @@ export function ServiceDetails({ onNavigateToContact, content }: ServiceDetailsP
           ))}
         </div>
 
-        {/* CTA - prominent and clear (Von Restorff Effect + Fitts's Law) */}
-        <div className="mt-24 text-center">
-          <div className="inline-block bg-black dark:bg-white p-16 relative shadow-2xl">
-            {/* Corner accents */}
-            <div className="absolute top-0 left-0 w-6 h-6 bg-yellow-400"></div>
-            <div className="absolute top-0 right-0 w-6 h-6 bg-yellow-400"></div>
-            <div className="absolute bottom-0 left-0 w-6 h-6 bg-yellow-400"></div>
-            <div className="absolute bottom-0 right-0 w-6 h-6 bg-yellow-400"></div>
-
-            <h3 className="text-3xl md:text-4xl text-white dark:text-black mb-8">
-              Bereit für den Service?
-            </h3>
-            {onNavigateToContact && (
-              <button
-                type="button"
-                onClick={onNavigateToContact}
-                className="inline-block bg-yellow-400 text-black px-12 py-5 text-lg hover:bg-yellow-500 hover:scale-105 hover:shadow-xl transition-all"
-              >
-                Jetzt Termin vereinbaren
-              </button>
-            )}
-          </div>
-        </div>
       </div>
     </section>
   );
