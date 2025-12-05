@@ -1,0 +1,119 @@
+services:
+  postgres-dev:
+    image: postgres:16-alpine
+    container_name: ulrich-postgres-dev
+    env_file:
+      - .env.local
+    environment:
+      POSTGRES_DB: ${POSTGRES_DEV_DB:-strapi_dev}
+      POSTGRES_USER: ${POSTGRES_DEV_USER:-strapi}
+      POSTGRES_PASSWORD: ${POSTGRES_DEV_PASSWORD:-strapi}
+    ports:
+      - "${POSTGRES_DEV_PORT:-5433}:5432"
+    volumes:
+      - postgres-dev-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  postgres-prod:
+    image: postgres:16-alpine
+    container_name: ulrich-postgres-prod
+    env_file:
+      - .env.local
+    environment:
+      POSTGRES_DB: ${POSTGRES_PROD_DB:-strapi_prod}
+      POSTGRES_USER: ${POSTGRES_PROD_USER:-strapi}
+      POSTGRES_PASSWORD: ${POSTGRES_PROD_PASSWORD:-strapi}
+    ports:
+      - "${POSTGRES_PROD_PORT:-5434}:5432"
+    volumes:
+      - postgres-prod-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  strapi-dev:
+    build:
+      context: apps/backend
+      dockerfile: Dockerfile
+      target: dev
+    container_name: ulrich-strapi-dev
+    env_file:
+      - .env.local
+    depends_on:
+      - postgres-dev
+    environment:
+      NODE_ENV: development
+      HOST: 0.0.0.0
+      PORT: ${STRAPI_DEV_PORT:-1438}
+      APP_KEYS: ${STRAPI_DEV_APP_KEYS}
+      API_TOKEN_SALT: ${STRAPI_DEV_API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${STRAPI_DEV_ADMIN_JWT_SECRET}
+      JWT_SECRET: ${STRAPI_DEV_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${STRAPI_DEV_TRANSFER_TOKEN_SALT}
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres-dev
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_DEV_DB:-strapi_dev}
+      DATABASE_USERNAME: ${POSTGRES_DEV_USER:-strapi}
+      DATABASE_PASSWORD: ${POSTGRES_DEV_PASSWORD:-strapi}
+    ports:
+      - "${STRAPI_DEV_PORT:-1438}:${STRAPI_DEV_PORT:-1438}"
+    volumes:
+      - ./apps/backend:/srv/app
+      - strapi-dev-node-modules:/srv/app/node_modules
+      - strapi-dev-uploads:/srv/app/public/uploads
+    restart: unless-stopped
+
+  strapi-prod:
+    build:
+      context: apps/backend
+      dockerfile: Dockerfile
+      target: production
+    container_name: ulrich-strapi-prod
+    env_file:
+      - .env.local
+    depends_on:
+      - postgres-prod
+    environment:
+      NODE_ENV: production
+      PORT: ${STRAPI_PROD_PORT:-1437}
+      APP_KEYS: ${STRAPI_PROD_APP_KEYS}
+      API_TOKEN_SALT: ${STRAPI_PROD_API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${STRAPI_PROD_ADMIN_JWT_SECRET}
+      JWT_SECRET: ${STRAPI_PROD_JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${STRAPI_PROD_TRANSFER_TOKEN_SALT}
+      DATABASE_CLIENT: postgres
+      DATABASE_HOST: postgres-prod
+      DATABASE_PORT: 5432
+      DATABASE_NAME: ${POSTGRES_PROD_DB:-strapi_prod}
+      DATABASE_USERNAME: ${POSTGRES_PROD_USER:-strapi}
+      DATABASE_PASSWORD: ${POSTGRES_PROD_PASSWORD:-strapi}
+    ports:
+      - "${STRAPI_PROD_PORT:-1437}:${STRAPI_PROD_PORT:-1437}"
+    volumes:
+      - strapi-prod-uploads:/srv/app/public/uploads
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: apps/frontend
+      target: dev
+    container_name: ulrich-frontend
+    env_file:
+      - .env.local
+    depends_on:
+      - strapi-prod
+    environment:
+      VITE_API_URL: ${FRONTEND_DEV_API_URL:-http://localhost:1437}
+    ports:
+      - "${FRONTEND_PORT:-5173}:5173"
+    volumes:
+      - ./apps/frontend:/usr/src/app
+      - frontend-node-modules:/usr/src/app/node_modules
+    restart: unless-stopped
+
+volumes:
+  postgres-dev-data:
+  postgres-prod-data:
+  strapi-dev-uploads:
+  strapi-prod-uploads:
+  strapi-dev-node-modules:
+  frontend-node-modules:

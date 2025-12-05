@@ -1,0 +1,63 @@
+version: "3.9"
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: ulrich-postgres
+    env_file:
+      - .env.production
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_PORT: ${POSTGRES_PORT:-5432}
+    ports:
+      - "${POSTGRES_HOST_PORT:-5543}:${POSTGRES_PORT:-5432}"
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    restart: unless-stopped
+
+  backend:
+    build:
+      context: apps/backend
+      dockerfile: Dockerfile
+    container_name: ulrich-backend
+    env_file:
+      - .env.production
+    environment:
+      DATABASE_CLIENT: ${DATABASE_CLIENT:-postgres}
+      DATABASE_HOST: postgres
+      DATABASE_PORT: ${DATABASE_PORT:-5432}
+      DATABASE_NAME: ${DATABASE_NAME:-strapi}
+      DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
+      DATABASE_PASSWORD: ${DATABASE_PASSWORD:-super-secure-password}
+      APP_KEYS: ${APP_KEYS}
+      API_TOKEN_SALT: ${API_TOKEN_SALT}
+      ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
+      JWT_SECRET: ${JWT_SECRET}
+      TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      PORT: ${BACKEND_PORT:-1437}
+    depends_on:
+      - postgres
+    ports:
+      - "${BACKEND_PORT:-1437}:${BACKEND_PORT:-1437}"
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: apps/frontend
+      dockerfile: Dockerfile
+      target: production
+      args:
+        VITE_API_URL: ${FRONTEND_PROD_API_URL}
+    container_name: ulrich-frontend
+    env_file:
+      - .env.production
+    depends_on:
+      - backend
+    ports:
+      - "${FRONTEND_HOST_PORT:-8081}:80"
+    restart: unless-stopped
+
+volumes:
+  postgres-data:

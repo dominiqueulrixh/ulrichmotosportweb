@@ -1,1 +1,7 @@
 .idea/*
+
+apps/backend/node_modules/
+apps/frontend/node_modules/
+
+deploy/synology/.env
+apps/backend/.env
