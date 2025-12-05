@@ -54,9 +54,8 @@ export function Hero({ onNavigate, content }: HeroProps) {
           {/* Text Content - improved hierarchy and spacing */}
           <div className="space-y-8">
             {content.eyebrow && (
-              <div className="inline-flex items-center gap-3 bg-yellow-400 text-black px-6 py-3">
-                <div className="w-2 h-2 bg-black"></div>
-                <span className="tracking-wide">{content.eyebrow}</span>
+              <div className="inline-flex items-center gap-3 bg-white dark:bg-zinc-900 px-6 py-3">
+                <div className="w-2 h-2 bg-white dark:bg-zinc-900"></div>
               </div>
             )}
             {/* Main heading - clear hierarchy */}
