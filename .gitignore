@@ -5,3 +5,5 @@ apps/frontend/node_modules/
 
 deploy/synology/.env
 apps/backend/.env
+
+.DS_Store
