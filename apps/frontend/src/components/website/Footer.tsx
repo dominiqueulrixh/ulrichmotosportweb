@@ -1,15 +1,13 @@
 import React from 'react';
-import { Phone, Mail, MapPin, Facebook, Instagram, Youtube } from 'lucide-react';
+import { Phone, Mail, MapPin } from 'lucide-react';
 import logoImage from 'figma:asset/LogoColored.png';
 import { TabKey } from '../../types/navigation';
-import type { SocialLink } from '../../types/homepage';
 
 interface FooterProps {
   onNavigate: (tab: TabKey) => void;
   content: {
     description?: string;
     services: string[];
-    socials: SocialLink[];
     legalText?: string;
     addressLines: string[];
     phone?: string;
@@ -25,12 +23,6 @@ const footerLinks: { label: string; tab: TabKey }[] = [
   { label: 'Über uns', tab: 'about' },
   { label: 'Kontakt', tab: 'contact' }
 ];
-
-const socialIconMap: Record<string, React.ReactNode> = {
-  facebook: <Facebook className="w-5 h-5" />,
-  instagram: <Instagram className="w-5 h-5" />,
-  youtube: <Youtube className="w-5 h-5" />
-};
 
 export function Footer({ onNavigate, content }: FooterProps) {
   return (
@@ -67,18 +59,6 @@ export function Footer({ onNavigate, content }: FooterProps) {
                 {content.description}
               </p>
             )}
-            <div className="flex gap-3">
-              {content.socials.map(link => (
-                <a
-                  key={link.platform}
-                  href={link.url}
-                  className="w-12 h-12 bg-zinc-800 hover:bg-yellow-400 hover:text-black hover:scale-110 flex items-center justify-center transition-all rounded-lg"
-                  aria-label={link.platform}
-                >
-                  {socialIconMap[link.platform.toLowerCase()] ?? <Facebook className="w-5 h-5" />}
-                </a>
-              ))}
-            </div>
           </div>
 
           {/* Quick Links */}

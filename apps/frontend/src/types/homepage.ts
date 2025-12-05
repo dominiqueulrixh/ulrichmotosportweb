@@ -98,7 +98,6 @@ export interface HomepageContent {
   footer: {
     description?: string;
     services: string[];
-    socials: SocialLink[];
     legalText?: string;
   };
 }

@@ -229,7 +229,6 @@ type ContactApiResponse = StrapiData<{
 type FooterApiResponse = StrapiData<{
   description?: string | null;
   services?: TextListItem[] | null;
-  socials?: Array<StrapiData<Partial<SocialLink>>>;
   legalText?: string | null;
 }>;
 
@@ -363,16 +362,9 @@ const mapContactSection = (data: ContactApiResponse): HomepageContent['contact']
 };
 
 const mapFooter = (data: FooterApiResponse): HomepageContent['footer'] => {
-  const socials: SocialLink[] =
-    data.socials?.map(social => ({
-      platform: social?.platform ?? '',
-      url: social?.url ?? '#'
-    })) ?? [];
-
   return {
     description: data.description ?? '',
     services: normalizeTextList(data.services),
-    socials,
     legalText: data.legalText ?? ''
   };
 };

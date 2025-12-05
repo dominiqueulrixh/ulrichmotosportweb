@@ -38,7 +38,6 @@ export default function App() {
   const footerContent = {
     description: homepage?.footer.description ?? '',
     services: homepage?.footer.services ?? [],
-    socials: homepage?.footer.socials ?? [],
     legalText: homepage?.footer.legalText ?? '',
     addressLines,
     phone: contactPhone,
