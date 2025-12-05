@@ -13,7 +13,7 @@ services:
     ports:
       - "${POSTGRES_HOST_PORT:-5543}:${POSTGRES_PORT:-5432}"
     volumes:
-      - postgres-data:/var/lib/postgresql/data
+      - ./postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
 
   backend:
@@ -37,6 +37,8 @@ services:
       - postgres
     ports:
       - "${BACKEND_HOST_PORT:-1437}:${BACKEND_PORT:-1437}"
+    volumes:
+      - ./strapi-uploads:/srv/app/public/uploads
     restart: unless-stopped
 
   frontend:
@@ -50,6 +52,3 @@ services:
     ports:
       - "${FRONTEND_HOST_PORT:-8081}:80"
     restart: unless-stopped
-
-volumes:
-  postgres-data:

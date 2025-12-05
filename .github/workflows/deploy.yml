@@ -103,10 +103,31 @@ jobs:
           key: ${{ secrets.SYNOLOGY_SSH_KEY }}
           port: ${{ secrets.SYNOLOGY_SSH_PORT || 22 }}
           script: |
+            # 👉 Pfad MUSS exakt so existieren wie auf deiner Synology!
+            # Beispiel anhand deines Screenshots: /volume1/docker/ulrichMotosport
             cd ${{ secrets.SYNOLOGY_DEPLOY_PATH }}
+            export PATH=$PATH:/usr/local/bin
+
+            # Images, die im docker-compose.yml verwendet werden
             export FRONTEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_FRONTEND }}:latest
             export BACKEND_IMAGE=${{ env.REGISTRY }}/${{ env.IMAGE_NAME_BACKEND }}:latest
-            export PATH=$PATH:/usr/local/bin
-            docker compose -f docker-compose.yml pull
-            docker compose -f docker-compose.yml up -d --remove-orphans
-            docker image prune -f
+
+            # 🔐 Login bei GitHub Container Registry (wichtig!)
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # 🐳 Neueste Images holen
+            docker pull $FRONTEND_IMAGE
+            docker pull $BACKEND_IMAGE
+
+            # 🧱 Container neu starten (Compose V1 wie bei komfortech)
+            docker-compose -f docker-compose.yml down || true
+            docker-compose -f docker-compose.yml up -d
+
+            # 🧹 Alte Images aufräumen
+            docker image prune -af
+
+            # 📊 Laufende Container anzeigen
+            docker ps
+      
+
+
