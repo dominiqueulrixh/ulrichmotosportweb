@@ -31,10 +31,15 @@ type FetchOptions = {
   stripIds?: boolean;
 };
 
-const API_URL = (import.meta.env.VITE_API_URL ?? import.meta.env.VITE_STRAPI_URL ?? 'http://localhost:1437').replace(
-  /\/+$/,
-  ''
-);
+const API_URL = (
+    import.meta.env.VITE_API_URL ??
+    import.meta.env.VITE_STRAPI_URL ??
+    'http://localhost:1437'
+).replace(/\/$/, '');
+
+;(window as any).__API_URL_TEST__ = API_URL;
+console.log('API_URL =', API_URL);
+
 
 const withLeadingSlash = (value: string) => (value.startsWith('/') ? value : `/${value}`);
 
