@@ -20,7 +20,7 @@ COPY . .
 RUN npm run build
 
 FROM nginx:1.27-alpine AS production
-# Vite-Build liegt jetzt in /usr/src/app/dist
-COPY --from=build /usr/src/app/dist /usr/share/nginx/html
+# Vite-Build liegt jetzt in /usr/src/app/build (not dist)
+COPY --from=build /usr/src/app/build /usr/share/nginx/html
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
