@@ -277,6 +277,9 @@ const splitLines = (value?: string | null): string[] =>
     .map(entry => entry.trim())
     .filter(Boolean);
 
+const normalizeNewlines = (value?: string | null): string =>
+  (value ?? '').replace(/\\n/g, '\n');
+
 type NavigationApiResponse = {
   phone?: string | null;
   email?: string | null;
@@ -386,6 +389,7 @@ const mapNavigation = (data: NavigationApiResponse): HomepageContent['navigation
 });
 
 const mapHero = (data: HeroApiResponse, statsData: HeroStatEntry[]): HomepageContent['hero'] => {
+  const title = normalizeNewlines(data.title);
   const galleryUrls = mediaUrls(data.gallery);
   const imageUrls = galleryUrls.length > 0 ? galleryUrls : mediaUrls(data.image);
   const stats: HeroContent['stats'] =
@@ -397,7 +401,7 @@ const mapHero = (data: HeroApiResponse, statsData: HeroStatEntry[]): HomepageCon
 
   return {
     eyebrow: data.eyebrow ?? '',
-    title: data.title ?? '',
+    title,
     highlight: data.highlight ?? '',
     primaryCta: {
       label: data.primaryCtaLabel ?? '',

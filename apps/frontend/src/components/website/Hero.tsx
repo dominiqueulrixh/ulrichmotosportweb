@@ -38,6 +38,12 @@ const cornerGridFadeStyle: React.CSSProperties = {
   '--grid-fade-end-stop': '100%'
 };
 
+const gridSizingStyle: React.CSSProperties & { '--cell-size'?: string } = {
+  '--cell-size': 'clamp(26px, 4.5vw, 38px)',
+  width: 'calc(var(--cell-size) * 14)',
+  height: 'calc(var(--cell-size) * 14)'
+};
+
 export function Hero({ onNavigate, content }: HeroProps) {
   const rawTitle = content.title ?? '';
   const splitTitle = rawTitle.split('\n').filter(Boolean);
@@ -78,15 +84,15 @@ export function Hero({ onNavigate, content }: HeroProps) {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-start bg-white dark:bg-zinc-900 overflow-hidden pt-12 pb-8">
+    <section id="home" className="relative min-h-screen flex items-center bg-white dark:bg-zinc-900 overflow-hidden pt-16 pb-20">
       {/* Subtle checkered pattern - top right with gradient fade */}
-      <div 
-        className="absolute top-0 right-0 w-[55vw] h-[60vh] grid-fade"
+      <div
+        className="absolute right-0 top-0 md:top-4 lg:top-6 grid-fade pointer-events-none"
         style={heroGridFadeStyle}
       >
-        <div className="grid grid-cols-14 h-full gap-0">
+        <div className="grid grid-cols-14 gap-0" style={gridSizingStyle}>
           {[...Array(196)].map((_, i) => (
-            <div key={i} className={(i + Math.floor(i / 14)) % 2 === 0 ? 'bg-black dark:bg-white aspect-square' : 'bg-transparent aspect-square'}></div>
+            <div key={i} className={(i + Math.floor(i / 14)) % 2 === 0 ? 'bg-black dark:bg-white' : 'bg-transparent'}></div>
           ))}
         </div>
       </div>
