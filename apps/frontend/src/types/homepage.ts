@@ -11,6 +11,7 @@ export interface HeroContent {
   primaryCta: { label: string; target: string };
   secondaryCta: { label: string; target: string };
   imageUrl?: string;
+  images?: string[];
   stats: HeroStat[];
 }
 

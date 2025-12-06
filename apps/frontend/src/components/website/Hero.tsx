@@ -44,6 +44,33 @@ export function Hero({ onNavigate, content }: HeroProps) {
   const effectiveLines = splitTitle.length > 0 ? splitTitle : [rawTitle];
   const mainLines = effectiveLines.slice(0, -1);
   const lastLine = effectiveLines.at(-1) ?? '';
+  const fallbackImage = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80';
+  const slides = (content.images && content.images.length > 0
+    ? content.images
+    : content.imageUrl
+      ? [content.imageUrl]
+      : [fallbackImage]
+  ).filter(Boolean);
+  const [activeIndex, setActiveIndex] = React.useState(0);
+  const slideCount = slides.length;
+
+  React.useEffect(() => {
+    if (activeIndex >= slideCount) {
+      setActiveIndex(0);
+    }
+  }, [activeIndex, slideCount]);
+
+  React.useEffect(() => {
+    if (slideCount <= 1) return;
+    const interval = window.setInterval(() => {
+      setActiveIndex(prev => (prev + 1) % slideCount);
+    }, 5000);
+    return () => window.clearInterval(interval);
+  }, [slideCount]);
+
+  const goTo = (nextIndex: number) => {
+    setActiveIndex((nextIndex + slideCount) % slideCount);
+  };
 
   return (
     <section id="home" className="relative min-h-screen flex items-start bg-white dark:bg-zinc-900 overflow-hidden pt-12 pb-8">
@@ -141,12 +168,15 @@ export function Hero({ onNavigate, content }: HeroProps) {
             <div className="relative aspect-square max-w-sm mx-auto lg:max-w-[26rem] mb-16 lg:mb-0">
               {/* Main image container with rounded corners */}
               <div className="absolute inset-0 bg-zinc-100 dark:bg-zinc-800 rounded-[2rem] overflow-hidden">
-                <ImageWithFallback
-                  src={content.imageUrl ?? 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80'}
-                  alt="Motorrad Service"
-                  className="w-full h-full object-cover"
-                />
-                
+                {slides.map((src, index) => (
+                  <ImageWithFallback
+                    key={`${src}-${index}`}
+                    src={src}
+                    alt="Motorrad Service"
+                    className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ${index === activeIndex ? 'opacity-100' : 'opacity-0'}`}
+                  />
+                ))}
+
                 {/* Simple yellow accent bar */}
                 <div className="absolute bottom-0 left-0 right-0 h-3 bg-yellow-400"></div>
                 
@@ -158,6 +188,41 @@ export function Hero({ onNavigate, content }: HeroProps) {
                     ))}
                   </div>
                 </div>
+
+                {slideCount > 1 && (
+                  <>
+                    <div className="absolute inset-0 pointer-events-none bg-gradient-to-b from-black/15 via-transparent to-black/25" />
+                    <div className="absolute bottom-4 left-0 right-0 flex items-center justify-center gap-3">
+                      <button
+                        type="button"
+                        onClick={() => goTo(activeIndex - 1)}
+                        className="w-10 h-10 rounded-full bg-white/90 text-black shadow-md hover:bg-yellow-400 transition-colors pointer-events-auto"
+                        aria-label="Vorheriges Bild"
+                      >
+                        ‹
+                      </button>
+                      <div className="flex items-center gap-2">
+                        {slides.map((_, idx) => (
+                          <button
+                            key={idx}
+                            type="button"
+                            onClick={() => goTo(idx)}
+                            className={`w-2.5 h-2.5 rounded-full border border-white/60 transition-all pointer-events-auto ${idx === activeIndex ? 'bg-yellow-400 border-yellow-400 scale-110' : 'bg-white/70'}`}
+                            aria-label={`Bild ${idx + 1} anzeigen`}
+                          />
+                        ))}
+                      </div>
+                      <button
+                        type="button"
+                        onClick={() => goTo(activeIndex + 1)}
+                        className="w-10 h-10 rounded-full bg-white/90 text-black shadow-md hover:bg-yellow-400 transition-colors pointer-events-auto"
+                        aria-label="Nächstes Bild"
+                      >
+                        ›
+                      </button>
+                    </div>
+                  </>
+                )}
               </div>
 
               {/* Diagonal stripe element - subtle */}

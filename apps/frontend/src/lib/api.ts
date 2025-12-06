@@ -25,6 +25,9 @@ type StrapiMedia = EntityIds & {
   formats?: Record<string, { url?: string | null } | null>;
 };
 
+type MediaInput = string | StrapiMedia | StrapiMediaWrapper | null | undefined;
+type MediaCollection = MediaInput | MediaInput[] | { data?: MediaInput[] | null };
+
 type TextListItem = EntityIds & { text?: string | null };
 
 type FetchOptions = {
@@ -68,6 +71,20 @@ const mediaUrl = (value?: string | StrapiMedia | StrapiMediaWrapper | null): str
     Object.values((mediaCandidate as StrapiMedia).formats ?? {}).find(Boolean)?.url;
 
   return rawUrl ? absoluteUrl(rawUrl) : undefined;
+};
+
+const mediaUrls = (value?: MediaCollection): string[] => {
+  if (!value) return [];
+
+  const asArray = Array.isArray(value)
+    ? value
+    : typeof value === 'object' && 'data' in value
+      ? (value as { data?: MediaInput[] | null }).data ?? []
+      : [value];
+
+  return asArray
+    .map(entry => mediaUrl(entry))
+    .filter((url): url is string => Boolean(url));
 };
 
 const stripIdsDeep = <T>(value: T): T => {
@@ -166,7 +183,7 @@ type HeroApiResponse = StrapiData<{
   primaryCtaTarget?: string | null;
   secondaryCtaLabel?: string | null;
   secondaryCtaTarget?: string | null;
-  image?: string | StrapiMedia | null;
+  image?: MediaCollection;
   stats?: Array<StrapiData<Partial<HeroContent['stats'][number]>>>;
 }>;
 
@@ -239,6 +256,7 @@ const mapNavigation = (data: NavigationApiResponse): HomepageContent['navigation
 });
 
 const mapHero = (data: HeroApiResponse): HomepageContent['hero'] => {
+  const imageUrls = mediaUrls(data.image);
   const stats: HeroContent['stats'] =
     data.stats?.map(stat => ({
       value: stat?.value ?? '',
@@ -258,7 +276,8 @@ const mapHero = (data: HeroApiResponse): HomepageContent['hero'] => {
       label: data.secondaryCtaLabel ?? '',
       target: data.secondaryCtaTarget ?? 'services'
     },
-    imageUrl: mediaUrl(data.image),
+    imageUrl: imageUrls[0],
+    images: imageUrls,
     stats
   };
 };
