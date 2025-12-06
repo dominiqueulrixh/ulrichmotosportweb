@@ -24,6 +24,9 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function Services({ content }: ServicesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const items = content.items ?? [];
+  const repeatCount = Math.max(6, Math.ceil((items.length ? 12 / items.length : 12)));
+  const loopItems = Array.from({ length: repeatCount }, () => items).flat();
 
   useEffect(() => {
     const scrollContainer = scrollRef.current;
@@ -83,8 +86,8 @@ export function Services({ content }: ServicesProps) {
           className="flex gap-6 overflow-x-hidden px-6 sm:px-10"
           style={{ scrollBehavior: 'auto' }}
         >
-          {/* Duplicate services for seamless loop - improved visual hierarchy (Law of Common Region) */}
-          {[...(content.items ?? []), ...(content.items ?? [])].map((service, index) => {
+          {/* Duplicate services for seamless loop - enough items to overflow on wide screens */}
+          {loopItems.map((service, index) => {
             const Icon = iconMap[service.iconName ?? ''] ?? Wrench;
             return (
             <div
