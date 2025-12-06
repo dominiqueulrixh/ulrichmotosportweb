@@ -108,10 +108,6 @@ export function Team({ content }: TeamProps) {
           <div className="absolute left-0 top-0 bottom-0 w-2 bg-yellow-400"></div>
 
           <div className="bg-zinc-50 dark:bg-zinc-800 p-12 md:p-16 ml-8">
-            {/* Corner accents */}
-            <div className="absolute top-0 right-0 w-8 h-8 bg-yellow-400"></div>
-            <div className="absolute bottom-0 left-8 w-8 h-8 bg-yellow-400"></div>
-
             <div className="max-w-4xl">
               <div className="inline-block bg-yellow-400 text-black px-4 py-1 text-sm mb-6">
                 Seit 2001
