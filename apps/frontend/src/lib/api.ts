@@ -26,7 +26,13 @@ type StrapiMedia = EntityIds & {
 };
 
 type MediaInput = string | StrapiMedia | StrapiMediaWrapper | null | undefined;
-type MediaCollection = MediaInput | MediaInput[] | { data?: MediaInput[] | null };
+
+// Single oder multiple media
+type MediaRelation =
+    | { data?: MediaInput | null }      // single
+    | { data?: MediaInput[] | null };   // multiple
+
+type MediaCollection = MediaInput | MediaInput[] | MediaRelation;
 
 type TextListItem = EntityIds & { text?: string | null };
 
@@ -56,35 +62,75 @@ type StrapiMediaWrapper = {
   data?: { attributes?: StrapiMedia | null } | StrapiMedia | null;
 };
 
-const mediaUrl = (value?: string | StrapiMedia | StrapiMediaWrapper | null): string | undefined => {
+const mediaUrl = (
+    value?: string | StrapiMedia | StrapiMediaWrapper | { attributes?: unknown } | null
+): string | undefined => {
   if (!value) return undefined;
+
+  // 1) Direkter String → direkt URL bauen
   if (typeof value === 'string') return absoluteUrl(value);
 
-  const mediaCandidate = (value as StrapiMediaWrapper).data
-    ? (value as StrapiMediaWrapper).data?.attributes ?? (value as StrapiMediaWrapper).data
-    : value;
+  let mediaCandidate: any = value;
+
+  // 2) Falls es ein Wrapper mit .data ist (Relation / Media-Feld)
+  if (mediaCandidate && typeof mediaCandidate === 'object' && 'data' in mediaCandidate && mediaCandidate.data) {
+    const data = (mediaCandidate as { data: any }).data;
+    mediaCandidate = data.attributes ?? data;
+  }
+
+  // 3) Falls wir direkt ein Objekt mit .attributes bekommen (z.B. aus Schritt 2 oder bei manchen Antworten)
+  if (mediaCandidate && typeof mediaCandidate === 'object' && 'attributes' in mediaCandidate) {
+    mediaCandidate = (mediaCandidate as { attributes: any }).attributes;
+  }
 
   if (!mediaCandidate) return undefined;
 
-  const rawUrl =
-    (mediaCandidate as StrapiMedia).url ??
-    Object.values((mediaCandidate as StrapiMedia).formats ?? {}).find(Boolean)?.url;
+  // 4) Jetzt sollte mediaCandidate endlich etwas im Stil von StrapiMedia sein
+  const urlFromSelf = (mediaCandidate as StrapiMedia).url ?? null;
 
+  let urlFromFormats: string | null = null;
+  if (!urlFromSelf && (mediaCandidate as StrapiMedia).formats) {
+    const firstFormatWithUrl = Object.values((mediaCandidate as StrapiMedia).formats!)
+        .filter(Boolean)
+        .find((fmt: any) => fmt && fmt.url);
+    urlFromFormats = (firstFormatWithUrl as { url?: string | null } | undefined)?.url ?? null;
+  }
+
+  const rawUrl = urlFromSelf ?? urlFromFormats;
   return rawUrl ? absoluteUrl(rawUrl) : undefined;
 };
+
 
 const mediaUrls = (value?: MediaCollection): string[] => {
   if (!value) return [];
 
-  const asArray = Array.isArray(value)
-    ? value
-    : typeof value === 'object' && 'data' in value
-      ? (value as { data?: MediaInput[] | null }).data ?? []
-      : [value];
+  const items: MediaInput[] = [];
 
-  return asArray
-    .map(entry => mediaUrl(entry))
-    .filter((url): url is string => Boolean(url));
+  const pushIf = (item?: MediaInput | null) => {
+    if (item) items.push(item);
+  };
+
+  if (Array.isArray(value)) {
+    // direkt ein Array von MediaInputs
+    items.push(...value);
+  } else if (typeof value === 'object' && value !== null && 'data' in value) {
+    const data = (value as { data?: MediaInput | MediaInput[] | null }).data;
+
+    if (Array.isArray(data)) {
+      // multiple media
+      items.push(...data);
+    } else {
+      // single media (data ist ein Objekt oder null)
+      pushIf(data as MediaInput | null | undefined);
+    }
+  } else {
+    // einzelner Wert (String, StrapiMedia, StrapiMediaWrapper, ...)
+    items.push(value as MediaInput);
+  }
+
+  return items
+      .map(entry => mediaUrl(entry))
+      .filter((url): url is string => Boolean(url));
 };
 
 const stripIdsDeep = <T>(value: T): T => {

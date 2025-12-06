@@ -1,61 +1,112 @@
-# 🚀 Getting started with Strapi
+# Strapi Setup ohne Vorbelegung
 
-Strapi comes with a full featured [Command Line Interface](https://docs.strapi.io/dev-docs/cli) (CLI) which lets you scaffold and manage your project in seconds.
+Alle vordefinierten Collection Types, Components und Seed-Daten wurden entfernt. Lege die benötigten Single Types und Components in Strapi manuell an, damit das Frontend (`apps/frontend`) die erwarteten Felder findet.
 
-### `develop`
+## Starten
+- `npm install` und `npm run develop` (oder `yarn develop`) im Ordner `apps/backend`.
+- Melde dich im Strapi-Admin an und erstelle die unten beschriebenen Strukturen.
+- Vergiss nicht, die Einträge zu veröffentlichen, damit das Frontend sie abrufen kann.
 
-Start your Strapi application with autoReload enabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-develop)
+## Components anlegen
+Erstelle die Components zuerst, damit du sie in den Single Types wiederverwenden kannst.
 
-```
-npm run develop
-# or
-yarn develop
-```
+- `common.list-item`  
+  - `text` (Text, required): Eine Zeile, z. B. für Services oder Adresszeilen.
 
-### `start`
+- `homepage.hero-stat`  
+  - `value` (String, required): Anzeigezahl, z. B. `20+`.  
+  - `label` (String, required): Kurze Beschreibung.  
+  - `description` (Text, optional).
 
-Start your Strapi application with autoReload disabled. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-start)
+- `homepage.service-card`  
+  - `title` (String, required).  
+  - `description` (Text, optional).  
+  - `iconName` (String, optional): Name des Icons im Frontend (z. B. `Wrench`).
 
-```
-npm run start
-# or
-yarn start
-```
+- `homepage.service-category`  
+  - `title` (String, required).  
+  - `description` (Text, optional).  
+  - `image` (Single Media, optional).  
+  - `items` (Repeatable Component: `common.list-item`, optional).
 
-### `build`
+- `homepage.brand-card`  
+  - `name` (String, required).  
+  - `description` (Text, optional).
 
-Build your admin panel. [Learn more](https://docs.strapi.io/dev-docs/cli#strapi-build)
+- `homepage.team-member`  
+  - `name` (String, required).  
+  - `role` (String, optional).  
+  - `experience` (String, optional).  
+  - `specialization` (String, optional).  
+  - `photo` (Single Media, optional).
 
-```
-npm run build
-# or
-yarn build
-```
+- `homepage.contact-card`  
+  - `type` (Enumeration: `phone`, `email`, `address`, `hours`, required).  
+  - `title` (String, required).  
+  - `description` (Text, optional).  
+  - `lines` (Repeatable Component: `common.list-item`, optional) – z. B. Adresse oder Öffnungszeiten.  
+  - `actionValue` (String, optional) – z. B. `tel:` oder `mailto:` Ziel.
 
-## ⚙️ Deployment
+- Optional: `homepage.social-link`  
+  - `platform` (String, required).  
+  - `url` (String, required).  
+  Wird aktuell im Frontend nicht genutzt, kann aber für spätere Erweiterungen hilfreich sein.
 
-Strapi gives you many possible deployment options for your project including [Strapi Cloud](https://cloud.strapi.io). Browse the [deployment section of the documentation](https://docs.strapi.io/dev-docs/deployment) to find the best solution for your use case.
+## Single Types erstellen
+Lege folgende Single Types an (UIDs in Klammern), damit die API-Routen aus dem Frontend funktionieren.
 
-```
-yarn strapi deploy
-```
+- Navigation (`navigation`)  
+  - `phone` (String).  
+  - `email` (String).  
+  - `tagline` (String).
 
-## 📚 Learn more
+- Hero (`hero`)  
+  - `eyebrow` (String, optional).  
+  - `title` (Text, required).  
+  - `highlight` (String, optional).  
+  - `primaryCtaLabel` (String).  
+  - `primaryCtaTarget` (String) – Anker oder Route.  
+  - `secondaryCtaLabel` (String).  
+  - `secondaryCtaTarget` (String).  
+  - `image` (Single Media, optional).  
+  - `stats` (Repeatable Component: `homepage.hero-stat`, optional).  
+  - Optional: zusätzliches Feld `images` (Multiple Media) falls du mehrere Bilder liefern willst.
 
-- [Resource center](https://strapi.io/resource-center) - Strapi resource center.
-- [Strapi documentation](https://docs.strapi.io) - Official Strapi documentation.
-- [Strapi tutorials](https://strapi.io/tutorials) - List of tutorials made by the core team and the community.
-- [Strapi blog](https://strapi.io/blog) - Official Strapi blog containing articles made by the Strapi team and the community.
-- [Changelog](https://strapi.io/changelog) - Find out about the Strapi product updates, new features and general improvements.
+- Services (`service-section`)  
+  - `eyebrow` (String, optional).  
+  - `heading` (String, required).  
+  - `subheading` (Text, optional).  
+  - `items` (Repeatable Component: `homepage.service-card`, optional).  
+  - `detailsHeading` (String, optional).  
+  - `detailsSubheading` (Text, optional).  
+  - `categories` (Repeatable Component: `homepage.service-category`, optional).
 
-Feel free to check out the [Strapi GitHub repository](https://github.com/strapi/strapi). Your feedback and contributions are welcome!
+- Marken (`brand-section`)  
+  - `eyebrow` (String, optional).  
+  - `heading` (String, required).  
+  - `subheading` (Text, optional).  
+  - `items` (Repeatable Component: `homepage.brand-card`, optional).
 
-## ✨ Community
+- Team (`team`)  
+  - `eyebrow` (String, optional).  
+  - `heading` (String, required).  
+  - `subheading` (Text, optional).  
+  - `members` (Repeatable Component: `homepage.team-member`, optional).  
+  - `story` (Rich Text, optional).
 
-- [Discord](https://discord.strapi.io) - Come chat with the Strapi community including the core team.
-- [Forum](https://forum.strapi.io/) - Place to discuss, ask questions and find answers, show your Strapi project and get feedback or just talk with other Community members.
-- [Awesome Strapi](https://github.com/strapi/awesome-strapi) - A curated list of awesome things related to Strapi.
+- Kontakt (`contact`)  
+  - `eyebrow` (String, optional).  
+  - `heading` (String, required).  
+  - `subheading` (Text, optional).  
+  - `cards` (Repeatable Component: `homepage.contact-card`, optional).  
+  - `mapEmbedUrl` (String, optional).  
+  - `mapLabel` (String, optional).  
+  - `mapDescription` (String, optional).
 
----
+- Footer (`footer`)  
+  - `description` (Text, optional).  
+  - `services` (Repeatable Component: `common.list-item`, optional).  
+  - `legalText` (String, optional).  
+  - Optional: `socials` (Repeatable Component: `homepage.social-link`) falls benötigt.
 
-<sub>🤫 Psst! [Strapi is hiring](https://strapi.io/careers).</sub>
+> Hinweis: Alle oben genannten Inhalte sind Single Types. Du kannst sie später in Collection Types aufteilen, falls du mehrere Seiten mit ähnlicher Struktur brauchst – achte dann auf die UIDs und die Feldnamen, die das Frontend erwartet.
