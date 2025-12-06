@@ -24,6 +24,8 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function Services({ content }: ServicesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const boostRef = useRef(0);
+  const lastTouchXRef = useRef<number | null>(null);
   const items = content.items ?? [];
   const repeatCount = Math.max(6, Math.ceil((items.length ? 12 / items.length : 12)));
   const loopItems = Array.from({ length: repeatCount }, () => items).flat();
@@ -33,10 +35,11 @@ export function Services({ content }: ServicesProps) {
     if (!scrollContainer) return;
 
     let scrollAmount = 0;
-    const scrollSpeed = 0.5;
+    const baseSpeed = 0.5;
 
     const scroll = () => {
-      scrollAmount += scrollSpeed;
+      const currentSpeed = baseSpeed + boostRef.current;
+      scrollAmount += currentSpeed;
       
       if (scrollContainer) {
         scrollContainer.scrollLeft = scrollAmount;
@@ -45,6 +48,11 @@ export function Services({ content }: ServicesProps) {
         if (scrollAmount >= scrollContainer.scrollWidth / 2) {
           scrollAmount = 0;
         }
+      }
+
+      // Smoothly decay any swipe boost so the carousel eases back to base speed.
+      if (boostRef.current > 0) {
+        boostRef.current = Math.max(0, boostRef.current - 0.03);
       }
     };
 
@@ -84,6 +92,20 @@ export function Services({ content }: ServicesProps) {
         <div 
           ref={scrollRef}
           className="flex gap-6 overflow-x-hidden px-6 sm:px-10"
+          onTouchStart={event => {
+            const touch = event.touches[0];
+            lastTouchXRef.current = touch.clientX;
+          }}
+          onTouchMove={event => {
+            const touch = event.touches[0];
+            const lastX = lastTouchXRef.current;
+            if (lastX !== null) {
+              const delta = Math.abs(touch.clientX - lastX);
+              // Increase speed boost based on swipe distance, capped to avoid runaway speed.
+              boostRef.current = Math.min(3, boostRef.current + delta / 40);
+            }
+            lastTouchXRef.current = touch.clientX;
+          }}
           style={{ scrollBehavior: 'auto' }}
         >
           {/* Duplicate services for seamless loop - enough items to overflow on wide screens */}
