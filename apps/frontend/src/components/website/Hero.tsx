@@ -17,9 +17,19 @@ const heroGridFadeStyle: React.CSSProperties = {
 };
 
 const statCardFadeStyle: React.CSSProperties = {
-  '--grid-fade-angle': 'to bottom right',
+  '--grid-fade-angle': 'to bottom left',
   '--grid-fade-mid-stop': '60%',
   '--grid-fade-end-stop': '100%'
+};
+
+const statCardPatternStyle: React.CSSProperties = {
+  backgroundImage: `
+    linear-gradient(45deg, var(--stat-grid-color) 25%, transparent 25%, transparent 75%, var(--stat-grid-color) 75%, var(--stat-grid-color)),
+    linear-gradient(45deg, var(--stat-grid-color) 25%, transparent 25%, transparent 75%, var(--stat-grid-color) 75%, var(--stat-grid-color))
+  `,
+  backgroundSize: '40px 40px',
+  backgroundPosition: '0 0, 20px 20px',
+  '--stat-grid-color': 'rgba(255, 255, 255, 0.9)'
 };
 
 const cornerGridFadeStyle: React.CSSProperties = {
@@ -101,13 +111,10 @@ export function Hero({ onNavigate, content }: HeroProps) {
                     key={`${stat.value}-${index}`}
                     className="relative bg-black dark:bg-zinc-900 p-6 rounded-2xl overflow-hidden group hover:bg-yellow-400 dark:hover:bg-yellow-400 transition-all border-2 border-transparent hover:border-black dark:hover:border-black flex flex-col items-center justify-center text-center"
                   >
-                    <div className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity grid-fade" style={statCardFadeStyle}>
-                      <div className="grid grid-cols-6 grid-rows-6 h-full">
-                        {[...Array(36)].map((_, i) => (
-                          <div key={i} className={(i + Math.floor(i / 6)) % 2 === 0 ? 'bg-white group-hover:bg-black' : 'bg-transparent'}></div>
-                        ))}
-                      </div>
-                    </div>
+                    <div
+                      className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity grid-fade group-hover:[--stat-grid-color:rgba(0,0,0,0.85)]"
+                      style={{ ...statCardFadeStyle, ...statCardPatternStyle }}
+                    ></div>
                     <div className="absolute top-0 right-0 w-2 h-full bg-yellow-400 rounded-tr-2xl group-hover:bg-black"></div>
                     <div className="relative space-y-2 px-2 sm:px-4">
                       <div
