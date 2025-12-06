@@ -86,7 +86,7 @@ export function Hero({ onNavigate, content }: HeroProps) {
   return (
     <section
       id="home"
-      className="relative min-h-screen flex items-center bg-zinc-50 dark:bg-zinc-900 overflow-hidden pt-24 sm:pt-16 pb-20"
+      className="relative min-h-screen flex items-center bg-zinc-50 dark:bg-zinc-900 overflow-hidden pt-32 sm:pt-20 lg:pt-16 pb-20"
     >
       {/* Subtle checkered pattern - top right with gradient fade */}
       <div
@@ -101,9 +101,9 @@ export function Hero({ onNavigate, content }: HeroProps) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 pb-20 relative z-10 w-full">
-        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-          {/* Text Content - improved hierarchy and spacing */}
-          <div className="space-y-6 lg:space-y-8 lg:-mt-14">
+          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+            {/* Text Content - improved hierarchy and spacing */}
+          <div className="mt-12 sm:mt-0 space-y-6 lg:space-y-8 lg:-mt-14">
             {/* Main heading - clear hierarchy */}
             <div className="space-y-4">
               <h1
@@ -146,7 +146,7 @@ export function Hero({ onNavigate, content }: HeroProps) {
 
             {/* Stats - Racing Grid Style */}
             {content.stats?.length > 0 && (
-              <div className="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-6 pt-8 lg:pt-12 w-full max-w-3xl sm:max-w-4xl">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 pt-8 lg:pt-12 w-full max-w-3xl sm:max-w-4xl">
                 {content.stats.map((stat, index) => (
                   <div
                     key={`${stat.value}-${index}`}
