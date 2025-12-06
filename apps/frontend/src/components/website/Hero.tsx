@@ -84,7 +84,10 @@ export function Hero({ onNavigate, content }: HeroProps) {
   };
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center bg-zinc-50 dark:bg-zinc-900 overflow-hidden pt-16 pb-20">
+    <section
+      id="home"
+      className="relative min-h-screen flex items-center bg-zinc-50 dark:bg-zinc-900 overflow-hidden pt-24 sm:pt-16 pb-20"
+    >
       {/* Subtle checkered pattern - top right with gradient fade */}
       <div
         className="absolute right-0 top-0 md:top-4 lg:top-6 grid-fade pointer-events-none"
@@ -143,7 +146,7 @@ export function Hero({ onNavigate, content }: HeroProps) {
 
             {/* Stats - Racing Grid Style */}
             {content.stats?.length > 0 && (
-              <div className="grid grid-cols-3 gap-4 sm:gap-6 pt-8 lg:pt-12 w-full max-w-3xl sm:max-w-4xl">
+              <div className="flex flex-col gap-6 md:grid md:grid-cols-3 md:gap-6 pt-8 lg:pt-12 w-full max-w-3xl sm:max-w-4xl">
                 {content.stats.map((stat, index) => (
                   <div
                     key={`${stat.value}-${index}`}
