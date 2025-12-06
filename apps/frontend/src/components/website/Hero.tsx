@@ -55,7 +55,10 @@ export function Hero({ onNavigate, content }: HeroProps) {
           <div className="space-y-6 lg:space-y-8 lg:-mt-14">
             {/* Main heading - clear hierarchy */}
             <div className="space-y-4">
-              <h1 className="text-5xl md:text-6xl lg:text-7xl text-black dark:text-white leading-[1.1]">
+              <h1
+                className="text-5xl md:text-6xl lg:text-7xl text-black dark:text-white leading-[1.1] break-words"
+                style={{ wordBreak: 'break-word', hyphens: 'auto' }}
+              >
                 {mainLines.map((line, index) => (
                   <React.Fragment key={`${line}-${index}`}>
                     {line}
@@ -107,10 +110,16 @@ export function Hero({ onNavigate, content }: HeroProps) {
                     </div>
                     <div className="absolute top-0 right-0 w-2 h-full bg-yellow-400 rounded-tr-2xl group-hover:bg-black"></div>
                     <div className="relative space-y-2 px-2 sm:px-4">
-                      <div className="text-3xl lg:text-4xl text-yellow-400 group-hover:text-black dark:group-hover:text-black transition-colors leading-none">
+                      <div
+                        className="text-3xl lg:text-4xl text-yellow-400 group-hover:text-black dark:group-hover:text-black transition-colors leading-none break-words"
+                        style={{ wordBreak: 'break-word', hyphens: 'auto' }}
+                      >
                         {stat.value}
                       </div>
-                      <div className="text-xs text-white group-hover:text-black dark:group-hover:text-black leading-tight uppercase tracking-wider transition-colors whitespace-pre-line break-words">
+                      <div
+                        className="text-xs text-white group-hover:text-black dark:group-hover:text-black leading-tight uppercase tracking-wider transition-colors whitespace-pre-line break-words"
+                        style={{ wordBreak: 'break-word', hyphens: 'auto' }}
+                      >
                         {stat.label}
                       </div>
                     </div>

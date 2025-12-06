@@ -53,11 +53,17 @@ export function Brands({ content }: BrandsProps) {
 
               <div className="p-10 text-center">
                 <div className="relative">
-                  <h3 className="text-4xl md:text-5xl text-black dark:text-white mb-4">
+                  <h3
+                    className="text-4xl md:text-5xl text-black dark:text-white mb-4 break-words"
+                    style={{ wordBreak: 'break-word', hyphens: 'auto' }}
+                  >
                     {brand.name}
                   </h3>
                   <div className="w-16 h-1 bg-yellow-400 mx-auto mb-5"></div>
-                  <p className="text-zinc-600 dark:text-zinc-400 leading-relaxed">
+                  <p
+                    className="text-zinc-600 dark:text-zinc-400 leading-relaxed break-words"
+                    style={{ wordBreak: 'break-word', hyphens: 'auto' }}
+                  >
                     {brand.description}
                   </p>
                 </div>
