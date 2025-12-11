@@ -65,9 +65,9 @@ export function Services({ content }: ServicesProps) {
   }, [content.items]);
 
   return (
-    <section id="services" className="py-16 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
+    <section id="services" className="py-24 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 relative z-10">
-        <div className="text-center mb-12 space-y-4">
+        <div className="text-center mb-16 space-y-4">
           {content.eyebrow && (
             <div className="inline-block mb-2">
               <div className="flex items-center gap-2 text-yellow-400 text-sm uppercase tracking-wider">

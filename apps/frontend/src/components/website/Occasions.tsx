@@ -26,15 +26,15 @@ export function Occasions({ isDarkMode }: OccasionsProps) {
 
       <div className="max-w-7xl mx-auto px-4 relative z-10">
         {/* Section Header */}
-        <div className="text-center mb-16">
-          <div className="inline-block mb-4">
+        <div className="text-center mb-16 space-y-4">
+          <div className="inline-block mb-2">
             <div className="flex items-center gap-2 text-yellow-400 text-sm uppercase tracking-wider">
               <div className="w-8 h-px bg-yellow-400"></div>
               Occasionen
               <div className="w-8 h-px bg-yellow-400"></div>
             </div>
           </div>
-          <h2 className="text-4xl md:text-5xl text-black dark:text-white mb-4">
+          <h2 className="text-4xl md:text-5xl text-black dark:text-white">
             Geprüfte Gebrauchtmotorräder
           </h2>
           <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-2xl mx-auto">
