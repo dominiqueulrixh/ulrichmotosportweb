@@ -1,4 +1,8 @@
 export default ({ env }) => ({
+  url: env(
+    'ADMIN_URL',
+    env('NODE_ENV') === 'production' ? 'https://admin.ulrich-motosport.ch/admin' : '/admin'
+  ),
   auth: {
     secret: env('ADMIN_JWT_SECRET'),
   },
