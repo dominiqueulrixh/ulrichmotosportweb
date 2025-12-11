@@ -11,32 +11,14 @@
   },
   "pluginOptions": {},
   "attributes": {
-    "phone": {
+    "type": {
       "type": "enumeration",
+      "required": true,
       "enum": [
-        "tel."
-      ]
-    },
-    "email": {
-      "type": "enumeration",
-      "enum": [
-        "info@ulrich-motosport.ch"
-      ]
-    },
-    "address": {
-      "type": "enumeration",
-      "enum": [
-        "Ulrich Motosport",
-        "Neuhofstrasse 1",
-        "CH-8630 Rüti"
-      ]
-    },
-    "hours": {
-      "type": "enumeration",
-      "enum": [
-        "Mo-Fr.",
-        "Sa.",
-        "So. geschlossen"
+        "phone",
+        "email",
+        "address",
+        "hours"
       ]
     },
     "title": {

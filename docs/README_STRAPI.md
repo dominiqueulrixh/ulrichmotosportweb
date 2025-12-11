@@ -43,6 +43,14 @@ Jede Sektion entspricht exakt einem Tab im Frontend. Bilder (Hero, Service-Kateg
 
 ---
 
+### Kontakt-Karten pflegen
+
+- Feld `type` steuert Icon & Verhalten (`phone`, `email`, `address`, `hours`). Icons im Frontend: `Phone`, `Mail`, `MapPin`, `Clock` (lucide-react).
+- `actionValue` wird für `tel:` bzw. `mailto:` genutzt; alternativ wird die `description` als Fallback genommen.
+- `lines`/`description` liefern die sichtbaren Zeilen im Frontend. Nur `phone` und `email` sind klickbar, Öffnungszeiten/Adresse bleiben statisch.
+
+---
+
 ## Frontend-Verknüpfung
 
 - `.env` im Frontend benötigt `VITE_STRAPI_URL` (oder `VITE_API_URL` in Docker) mit Standard `http://localhost:1437`.

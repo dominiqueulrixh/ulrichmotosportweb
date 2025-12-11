@@ -369,6 +369,10 @@ type ContactSectionMeta = {
 
 type ContactCardEntry = {
   type?: ContactCard['type'] | null;
+  phone?: string | null;
+  email?: string | null;
+  address?: string | null;
+  hours?: string | null;
   title?: string | null;
   description?: string | null;
   linesText?: string | null;
@@ -502,13 +506,30 @@ const mapContactSection = (
 ): HomepageContent['contact'] => {
   const contactCards: ContactCard[] = (cardsData ?? [])
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
-    .map(card => ({
-      type: (card?.type as ContactCard['type']) ?? 'phone',
-      title: card?.title ?? '',
-      description: card?.description ?? '',
-      lines: splitLines(card?.linesText),
-      actionValue: card?.actionValue ?? ''
-    }));
+    .map(card => {
+      const normalizedTitle = (card?.title ?? '').toLowerCase();
+      const normalizedAsciiTitle = normalizedTitle
+        .normalize('NFD')
+        .replace(/[\u0300-\u036f]/g, '');
+      const inferredType: ContactCard['type'] =
+        (card?.type as ContactCard['type']) ??
+        (card?.email ? 'email' : undefined) ??
+        (card?.hours ? 'hours' : undefined) ??
+        (card?.address ? 'address' : undefined) ??
+        (card?.phone ? 'phone' : undefined) ??
+        (normalizedTitle.includes('mail') ? 'email' : undefined) ??
+        (normalizedAsciiTitle.includes('offnungs') || normalizedAsciiTitle.includes('oeffnungs') ? 'hours' : undefined) ??
+        (normalizedTitle.includes('adresse') ? 'address' : undefined) ??
+        'phone';
+
+      return {
+        type: inferredType,
+        title: card?.title ?? '',
+        description: card?.description ?? '',
+        lines: splitLines(card?.linesText),
+        actionValue: card?.actionValue ?? ''
+      };
+    });
 
   return {
     eyebrow: meta.eyebrow ?? '',

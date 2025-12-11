@@ -499,15 +499,10 @@ export interface ApiContactCardContactCard extends Struct.CollectionTypeSchema {
   };
   attributes: {
     actionValue: Schema.Attribute.String;
-    address: Schema.Attribute.Enumeration<
-      ['Ulrich Motosport', 'Neuhofstrasse 1', 'CH-8630 R\u00FCti']
-    >;
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
     description: Schema.Attribute.Text;
-    email: Schema.Attribute.Enumeration<['info@ulrich-motosport.ch']>;
-    hours: Schema.Attribute.Enumeration<['Mo-Fr.', 'Sa.', 'So. geschlossen']>;
     linesText: Schema.Attribute.Text;
     locale: Schema.Attribute.String & Schema.Attribute.Private;
     localizations: Schema.Attribute.Relation<
@@ -516,9 +511,10 @@ export interface ApiContactCardContactCard extends Struct.CollectionTypeSchema {
     > &
       Schema.Attribute.Private;
     order: Schema.Attribute.Integer;
-    phone: Schema.Attribute.Enumeration<['tel.']>;
     publishedAt: Schema.Attribute.DateTime;
     title: Schema.Attribute.String;
+    type: Schema.Attribute.Enumeration<['phone', 'email', 'address', 'hours']> &
+      Schema.Attribute.Required;
     updatedAt: Schema.Attribute.DateTime;
     updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
