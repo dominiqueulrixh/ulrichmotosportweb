@@ -30,6 +30,8 @@ export interface ServiceCategory {
 
 export interface BrandCard {
   name: string;
+  logoUrl?: string;
+  linkUrl?: string;
   description?: string;
 }
 

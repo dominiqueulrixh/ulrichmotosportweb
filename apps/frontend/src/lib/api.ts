@@ -337,6 +337,8 @@ type BrandSectionMeta = {
 type BrandEntry = {
   name?: string | null;
   description?: string | null;
+  logo?: MediaCollection;
+  linkUrl?: string | null;
   order?: number | null;
 };
 
@@ -469,7 +471,9 @@ const mapBrandSection = (
     .sort((a, b) => (a.order ?? 0) - (b.order ?? 0))
     .map(brand => ({
       name: brand?.name ?? '',
-      description: brand?.description ?? ''
+      description: brand?.description ?? '',
+      logoUrl: mediaUrl(brand?.logo),
+      linkUrl: brand?.linkUrl ?? undefined
     }));
 
   return {
