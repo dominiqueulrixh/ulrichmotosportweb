@@ -52,7 +52,7 @@ export function Team({ content }: TeamProps) {
                 <ImageWithFallback
                   src={member.imageUrl ?? backupUser}
                   alt={member.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 transition-all duration-500 group-hover:scale-105"
+                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 transition-all duration-500 group-hover:scale-105 group-active:scale-105 group-focus:scale-105"
                 />
 
                 {/* Subtle checkered grid overlay - top right with fade (visible when not hovered) */}
