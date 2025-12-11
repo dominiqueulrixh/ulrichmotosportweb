@@ -27,7 +27,6 @@ export function Services({ content }: ServicesProps) {
   const boostRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartScrollRef = useRef<number | null>(null);
-  const touchStartYRef = useRef<number | null>(null);
   const pauseTimeoutRef = useRef<number | null>(null);
   const scrollAmountRef = useRef(0);
   const pausedRef = useRef(false);
@@ -115,7 +114,6 @@ export function Services({ content }: ServicesProps) {
           onTouchStart={event => {
             const touch = event.touches[0];
             touchStartXRef.current = touch.clientX;
-            touchStartYRef.current = touch.clientY;
             touchStartScrollRef.current = scrollRef.current?.scrollLeft ?? 0;
             touchStartTimeRef.current = event.timeStamp;
             pausedRef.current = true;
@@ -128,10 +126,6 @@ export function Services({ content }: ServicesProps) {
             const touch = event.touches[0];
             if (touchStartXRef.current === null || touchStartScrollRef.current === null) return;
             const dx = touch.clientX - touchStartXRef.current;
-            const dy = touch.clientY - (touchStartYRef.current ?? touch.clientY);
-            if (Math.abs(dx) > Math.abs(dy)) {
-              event.preventDefault(); // lock to horizontal
-            }
             const targetScroll = touchStartScrollRef.current - dx;
             scrollAmountRef.current = targetScroll;
             if (scrollRef.current) {
@@ -148,7 +142,6 @@ export function Services({ content }: ServicesProps) {
             }
             touchStartXRef.current = null;
             touchStartScrollRef.current = null;
-            touchStartYRef.current = null;
             touchStartTimeRef.current = null;
             pausedRef.current = false;
             pauseTimeoutRef.current = window.setTimeout(() => {
@@ -158,7 +151,6 @@ export function Services({ content }: ServicesProps) {
           onTouchCancel={() => {
             touchStartXRef.current = null;
             touchStartScrollRef.current = null;
-            touchStartYRef.current = null;
             touchStartTimeRef.current = null;
             pausedRef.current = false;
           }}
