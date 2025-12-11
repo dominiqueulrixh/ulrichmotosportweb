@@ -27,9 +27,12 @@ export function Services({ content }: ServicesProps) {
   const boostRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartScrollRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
   const pauseTimeoutRef = useRef<number | null>(null);
   const scrollAmountRef = useRef(0);
   const pausedRef = useRef(false);
+  const touchStartTimeRef = useRef<number | null>(null);
+  const driftRef = useRef(0);
   const items = content.items ?? [];
   const repeatCount = Math.max(6, Math.ceil((items.length ? 12 / items.length : 12)));
   const loopItems = Array.from({ length: repeatCount }, () => items).flat();
@@ -46,7 +49,7 @@ export function Services({ content }: ServicesProps) {
       if (pausedRef.current) return;
 
       const currentSpeed = baseSpeed + boostRef.current;
-      scrollAmount += currentSpeed;
+      scrollAmount += currentSpeed + driftRef.current;
       scrollAmountRef.current = scrollAmount;
 
       if (scrollContainer) {
@@ -62,6 +65,14 @@ export function Services({ content }: ServicesProps) {
       // Smoothly decay any swipe boost so the carousel eases back to base speed.
       if (boostRef.current > 0) {
         boostRef.current = Math.max(0, boostRef.current - 0.04);
+      }
+
+      // Gradually reduce fling drift so momentum eases out.
+      if (driftRef.current !== 0) {
+        driftRef.current *= 0.94;
+        if (Math.abs(driftRef.current) < 0.02) {
+          driftRef.current = 0;
+        }
       }
     };
 
@@ -104,7 +115,9 @@ export function Services({ content }: ServicesProps) {
           onTouchStart={event => {
             const touch = event.touches[0];
             touchStartXRef.current = touch.clientX;
+            touchStartYRef.current = touch.clientY;
             touchStartScrollRef.current = scrollRef.current?.scrollLeft ?? 0;
+            touchStartTimeRef.current = event.timeStamp;
             pausedRef.current = true;
             if (pauseTimeoutRef.current) {
               window.clearTimeout(pauseTimeoutRef.current);
@@ -115,6 +128,10 @@ export function Services({ content }: ServicesProps) {
             const touch = event.touches[0];
             if (touchStartXRef.current === null || touchStartScrollRef.current === null) return;
             const dx = touch.clientX - touchStartXRef.current;
+            const dy = touch.clientY - (touchStartYRef.current ?? touch.clientY);
+            if (Math.abs(dx) > Math.abs(dy)) {
+              event.preventDefault(); // lock to horizontal
+            }
             const targetScroll = touchStartScrollRef.current - dx;
             scrollAmountRef.current = targetScroll;
             if (scrollRef.current) {
@@ -125,19 +142,24 @@ export function Services({ content }: ServicesProps) {
             if (touchStartXRef.current !== null && touchStartScrollRef.current !== null) {
               const endX = event.changedTouches[0]?.clientX ?? touchStartXRef.current;
               const dx = endX - touchStartXRef.current;
-              const dt = Math.max(1, event.timeStamp);
-              const velocity = Math.abs(dx) / dt;
-              boostRef.current = Math.min(6, velocity * 12) * (dx < 0 ? 1 : -1);
+              const dt = Math.max(1, (event.timeStamp ?? 0) - (touchStartTimeRef.current ?? event.timeStamp - 1));
+              const velocity = dx / dt; // px per ms (can be negative for backwards fling)
+              driftRef.current = Math.max(-8, Math.min(8, velocity * 28));
             }
             touchStartXRef.current = null;
             touchStartScrollRef.current = null;
+            touchStartYRef.current = null;
+            touchStartTimeRef.current = null;
+            pausedRef.current = false;
             pauseTimeoutRef.current = window.setTimeout(() => {
               pausedRef.current = false;
-            }, 1200);
+            }, 800);
           }}
           onTouchCancel={() => {
             touchStartXRef.current = null;
             touchStartScrollRef.current = null;
+            touchStartYRef.current = null;
+            touchStartTimeRef.current = null;
             pausedRef.current = false;
           }}
           style={{ scrollBehavior: 'auto' }}
