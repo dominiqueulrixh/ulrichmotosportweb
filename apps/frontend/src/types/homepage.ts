@@ -28,6 +28,11 @@ export interface ServiceCategory {
   items: string[];
 }
 
+export interface NewsBar {
+  title: string;
+  text: string;
+}
+
 export interface BrandCard {
   name: string;
   logoUrl?: string;
@@ -65,6 +70,7 @@ export interface HomepageContent {
     tagline: string;
   };
   hero: HeroContent;
+  newsBar?: NewsBar;
   services: {
     eyebrow?: string;
     heading: string;

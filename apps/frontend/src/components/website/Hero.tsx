@@ -1,11 +1,12 @@
 import React from 'react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { TabKey } from '../../types/navigation';
-import type { HeroContent } from '../../types/homepage';
+import type { HeroContent, NewsBar } from '../../types/homepage';
 
 interface HeroProps {
   onNavigate: (tab: TabKey) => void;
   content: HeroContent;
+  newsBar?: NewsBar;
 }
 
 const heroGridFadeStyle: React.CSSProperties = {
@@ -44,7 +45,7 @@ const gridSizingStyle: React.CSSProperties & { '--cell-size'?: string } = {
   height: 'calc(var(--cell-size) * 14)'
 };
 
-export function Hero({ onNavigate, content }: HeroProps) {
+export function Hero({ onNavigate, content, newsBar }: HeroProps) {
   const rawTitle = content.title ?? '';
   const splitTitle = rawTitle.split('\n').filter(Boolean);
   const effectiveLines = splitTitle.length > 0 ? splitTitle : [rawTitle];
@@ -83,6 +84,18 @@ export function Hero({ onNavigate, content }: HeroProps) {
     setActiveIndex((nextIndex + slideCount) % slideCount);
   };
 
+  const showNewsBar = Boolean(newsBar?.title && newsBar?.text);
+  const newsContentHtml = React.useMemo(() => {
+    const raw = newsBar?.text ?? '';
+    // Basic markdown-style bold/italic + preserve line breaks while letting existing HTML pass through.
+    const withBreaks = raw.replace(/\r\n|\r|\n/g, '<br />');
+    return withBreaks
+      .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+      .replace(/__(.+?)__/g, '<strong>$1</strong>')
+      .replace(/(^|[^*])\*(?!\*)([^*]+?)\*(?!\*)/g, '$1<em>$2</em>')
+      .replace(/(^|[^_])_(?!_)([^_]+?)_(?!_)/g, '$1<em>$2</em>');
+  }, [newsBar?.text]);
+
   return (
     <section
       id="home"
@@ -101,9 +114,24 @@ export function Hero({ onNavigate, content }: HeroProps) {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 pb-20 relative z-10 w-full">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            {/* Text Content - improved hierarchy and spacing */}
+        <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
+          {/* Text Content - improved hierarchy and spacing */}
           <div className="mt-12 sm:mt-0 space-y-6 lg:space-y-8 lg:-mt-14">
+            {showNewsBar && (
+              <div className="group relative bg-yellow-400/30 dark:bg-yellow-400/25 rounded-2xl overflow-hidden border-2 border-yellow-400 hover:shadow-2xl hover:scale-[1.01] transition-all duration-300 mb-8">
+                <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
+                <div className="p-6 md:p-7 lg:p-8 space-y-3">
+                  <h3 className="text-xl md:text-2xl lg:text-3xl text-black dark:text-white font-semibold mb-3">
+                    {newsBar?.title}
+                  </h3>
+                  <div className="w-14 h-1 bg-yellow-400"></div>
+                  <div
+                    className="text-zinc-700 dark:text-zinc-300 leading-relaxed prose prose-zinc dark:prose-invert max-w-none"
+                    dangerouslySetInnerHTML={{ __html: newsContentHtml }}
+                  />
+                </div>
+              </div>
+            )}
             {/* Main heading - clear hierarchy */}
             <div className="space-y-4">
               <h1

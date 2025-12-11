@@ -77,7 +77,7 @@ export default function App() {
     if (!homepage) return null;
     switch (activeTab) {
       case 'home':
-        return <Hero content={homepage.hero} onNavigate={handleTabChange} />;
+        return <Hero content={homepage.hero} newsBar={homepage.newsBar} onNavigate={handleTabChange} />;
       case 'services':
         return (
           <>

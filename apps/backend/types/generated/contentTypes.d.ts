@@ -682,6 +682,35 @@ export interface ApiNavigationNavigation extends Struct.SingleTypeSchema {
   };
 }
 
+export interface ApiNewsBarNewsBar extends Struct.SingleTypeSchema {
+  collectionName: 'news_bars';
+  info: {
+    displayName: 'newsBar';
+    pluralName: 'news-bars';
+    singularName: 'news-bar';
+  };
+  options: {
+    draftAndPublish: true;
+  };
+  attributes: {
+    createdAt: Schema.Attribute.DateTime;
+    createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+    locale: Schema.Attribute.String & Schema.Attribute.Private;
+    localizations: Schema.Attribute.Relation<
+      'oneToMany',
+      'api::news-bar.news-bar'
+    > &
+      Schema.Attribute.Private;
+    publishedAt: Schema.Attribute.DateTime;
+    text: Schema.Attribute.RichText & Schema.Attribute.Required;
+    title: Schema.Attribute.String & Schema.Attribute.Required;
+    updatedAt: Schema.Attribute.DateTime;
+    updatedBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
+      Schema.Attribute.Private;
+  };
+}
+
 export interface ApiServiceCategoryServiceCategory
   extends Struct.CollectionTypeSchema {
   collectionName: 'service_categories';
@@ -1358,6 +1387,7 @@ declare module '@strapi/strapi' {
       'api::hero-stat.hero-stat': ApiHeroStatHeroStat;
       'api::hero.hero': ApiHeroHero;
       'api::navigation.navigation': ApiNavigationNavigation;
+      'api::news-bar.news-bar': ApiNewsBarNewsBar;
       'api::service-category.service-category': ApiServiceCategoryServiceCategory;
       'api::service-section.service-section': ApiServiceSectionServiceSection;
       'api::service.service': ApiServiceService;

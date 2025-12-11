@@ -50,6 +50,10 @@ Alle vordefinierten Inhalte sind entfernt. Lege die Sektionen als **Single Types
   - `mapLabel` (Text, Short, optional)
   - `mapDescription` (Text, Short, optional)
 
+- **News Bar** (`news-bar`)
+  - `title` (Text, Short, **required**)
+  - `text` (Rich Text, **required**)
+
 - **Footer** (`footer`)
   - `description` (Text, Long, optional)
   - `servicesText` (Text, Long, optional) – eine Zeile pro Service.

@@ -298,6 +298,11 @@ type HeroApiResponse = {
   gallery?: MediaCollection;
 };
 
+type NewsBarEntry = {
+  title?: string | null;
+  text?: string | null;
+};
+
 type HeroStatEntry = {
   value?: string | null;
   label?: string | null;
@@ -421,6 +426,15 @@ const mapHero = (data: HeroApiResponse, statsData: HeroStatEntry[]): HomepageCon
     images: imageUrls,
     stats
   };
+};
+
+const mapNewsBar = (data?: NewsBarEntry | null): HomepageContent['newsBar'] => {
+  const title = (data?.title ?? '').trim();
+  const text = data?.text ?? '';
+  if (!title || !text) {
+    return undefined;
+  }
+  return { title, text };
 };
 
 const mapServicesSection = (
@@ -558,6 +572,7 @@ export async function fetchHomepageContent(): Promise<HomepageContent> {
   const [
     navigation,
     hero,
+    newsBar,
     heroStats,
     serviceMeta,
     serviceCards,
@@ -572,6 +587,7 @@ export async function fetchHomepageContent(): Promise<HomepageContent> {
   ] = await Promise.all([
     fetchSingleType<NavigationApiResponse>('navigation', '*', { stripIds: true }),
     fetchSingleType<HeroApiResponse>('hero', '*', { stripIds: true }),
+    fetchSingleType<NewsBarEntry>('news-bar', '*', { stripIds: true }).catch(() => null), // optional
     fetchCollection<HeroStatEntry>('hero-stats', '*', { stripIds: true }, { sort: 'order:asc' }),
     fetchSingleType<ServiceSectionMeta>('service-section', '*', { stripIds: true }),
     fetchCollection<ServiceCardEntry>('services', '*', { stripIds: true }, { sort: 'order:asc' }),
@@ -588,6 +604,7 @@ export async function fetchHomepageContent(): Promise<HomepageContent> {
   return {
     navigation: mapNavigation(navigation),
     hero: mapHero(hero, heroStats),
+    newsBar: mapNewsBar(newsBar),
     services: mapServicesSection(serviceMeta, serviceCards),
     serviceDetails: mapServiceDetails(serviceMeta, serviceCategories),
     brands: mapBrandSection(brandMeta, brandItems),
