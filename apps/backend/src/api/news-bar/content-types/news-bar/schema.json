@@ -18,6 +18,9 @@
     "text": {
       "type": "richtext",
       "required": true
+    },
+    "linkUrl": {
+      "type": "string"
     }
   }
 }

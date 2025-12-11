@@ -53,6 +53,7 @@ Alle vordefinierten Inhalte sind entfernt. Lege die Sektionen als **Single Types
 - **News Bar** (`news-bar`)
   - `title` (Text, Short, **required**)
   - `text` (Rich Text, **required**)
+  - `linkUrl` (Text, Short, optional) – optional URL, öffnet beim Klick in neuem Tab
 
 - **Footer** (`footer`)
   - `description` (Text, Long, optional)
@@ -62,7 +63,7 @@ Alle vordefinierten Inhalte sind entfernt. Lege die Sektionen als **Single Types
 ## Collection Types (beliebig viele Einträge)
 - **Hero Stats** (`hero-stats`)
   - `value` (Text, Short)
-  - `label` (Text, Short)
+  - `label` (Text, Long) – Zeilenumbrüche erlaubt für manuelle Breaks
   - `description` (Text, Long, optional)
   - `order` (Number, Integer, optional)
 
