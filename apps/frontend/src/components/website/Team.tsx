@@ -64,8 +64,12 @@ export function Team({ content }: TeamProps) {
                 />
 
                 {/* Subtle checkered grid overlay - top right with fade (visible when not hovered) */}
-                <div 
-                  className="absolute top-0 right-0 w-48 h-48 opacity-30 group-hover:opacity-0 transition-opacity duration-500"
+                <div
+                  className={`absolute top-0 right-0 w-48 h-48 transition-opacity duration-500 ${
+                    activeIndex === index
+                      ? 'opacity-0'
+                      : 'opacity-30 group-hover:opacity-0 group-active:opacity-0 group-focus:opacity-0'
+                  }`}
                   style={{
                     maskImage: 'linear-gradient(to bottom left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 70%)',
                     WebkitMaskImage: 'linear-gradient(to bottom left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 70%)'
