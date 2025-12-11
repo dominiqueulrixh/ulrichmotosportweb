@@ -301,6 +301,7 @@ type HeroApiResponse = {
 type NewsBarEntry = {
   title?: string | null;
   text?: string | null;
+  linkUrl?: string | null;
 };
 
 type HeroStatEntry = {
@@ -434,7 +435,7 @@ const mapNewsBar = (data?: NewsBarEntry | null): HomepageContent['newsBar'] => {
   if (!title || !text) {
     return undefined;
   }
-  return { title, text };
+  return { title, text, linkUrl: data?.linkUrl ?? undefined };
 };
 
 const mapServicesSection = (

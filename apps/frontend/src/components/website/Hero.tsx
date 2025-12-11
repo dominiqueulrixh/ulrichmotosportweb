@@ -120,13 +120,17 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
           {/* Text Content - improved hierarchy and spacing */}
           <div className="mt-12 sm:mt-0 space-y-6 lg:space-y-8 lg:-mt-14">
             {showNewsBar && (
-              <div
-                className={`group relative bg-yellow-400/30 dark:bg-yellow-400/25 rounded-2xl overflow-hidden border-2 border-yellow-400 transition-all duration-300 mb-8 ${
+              <a
+                href={newsBar?.linkUrl || undefined}
+                target={newsBar?.linkUrl ? '_blank' : undefined}
+                rel={newsBar?.linkUrl ? 'noopener noreferrer' : undefined}
+                className={`group relative bg-yellow-400/30 dark:bg-yellow-400/25 rounded-2xl overflow-hidden border-2 border-yellow-400 transition-all duration-300 mb-8 block ${
                   newsActive ? 'shadow-2xl scale-[1.01]' : 'hover:shadow-2xl hover:scale-[1.01]'
                 }`}
                 onPointerDown={() => setNewsActive(true)}
                 onPointerUp={() => setNewsActive(false)}
                 onPointerCancel={() => setNewsActive(false)}
+                onBlur={() => setNewsActive(false)}
               >
                 <div
                   className={`absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform origin-left transition-transform ${
@@ -143,7 +147,7 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                     dangerouslySetInnerHTML={{ __html: newsContentHtml }}
                   />
                 </div>
-              </div>
+              </a>
             )}
             {/* Main heading - clear hierarchy */}
             <div className="space-y-4">

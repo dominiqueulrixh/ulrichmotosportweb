@@ -31,6 +31,7 @@ export interface ServiceCategory {
 export interface NewsBar {
   title: string;
   text: string;
+  linkUrl?: string;
 }
 
 export interface BrandCard {
