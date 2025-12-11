@@ -49,9 +49,7 @@ export function Team({ content }: TeamProps) {
               className={`group relative bg-white dark:bg-zinc-800 overflow-hidden transition-all duration-300 ${
                 activeIndex === index ? 'shadow-2xl scale-105' : 'hover:shadow-2xl hover:scale-105'
               }`}
-              onPointerDown={() => setActiveIndex(index)}
-              onPointerUp={() => setActiveIndex(null)}
-              onPointerCancel={() => setActiveIndex(null)}
+              onClick={() => setActiveIndex(index)}
             >
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden">
