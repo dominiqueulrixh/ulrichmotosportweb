@@ -78,6 +78,8 @@ Alle vordefinierten Inhalte sind entfernt. Lege die Sektionen als **Single Types
 - **Brands** (`brands`)
   - `name` (Text, Short)
   - `description` (Text, Long, optional)
+  - `logo` (Media, Single, **required**)
+  - `linkUrl` (Text, Short, optional) – URL, die beim Klick auf die Markenkachel in neuem Tab öffnet
   - `order` (Number, Integer, optional)
 
 - **Team Members** (`team-members`)

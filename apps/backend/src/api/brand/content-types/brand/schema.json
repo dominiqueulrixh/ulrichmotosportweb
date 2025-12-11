@@ -19,6 +19,17 @@
     },
     "order": {
       "type": "integer"
+    },
+    "linkUrl": {
+      "type": "string"
+    },
+    "logo": {
+      "type": "media",
+      "multiple": false,
+      "allowedTypes": [
+        "images"
+      ],
+      "required": true
     }
   }
 }
