@@ -45,7 +45,7 @@ export function Brands({ content }: BrandsProps) {
               href={brand.linkUrl ?? undefined}
               target={brand.linkUrl ? '_blank' : undefined}
               rel={brand.linkUrl ? 'noopener noreferrer' : undefined}
-              className="group relative bg-white dark:bg-zinc-900 rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 hover:border-yellow-400 hover:shadow-2xl hover:scale-105 transition-all duration-300 block focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300"
+              className="group relative bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 hover:border-yellow-400 hover:shadow-2xl hover:scale-105 transition-all duration-300 block focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300"
             >
               {/* Racing stripe */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>

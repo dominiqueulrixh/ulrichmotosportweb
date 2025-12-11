@@ -45,7 +45,7 @@ export function Team({ content }: TeamProps) {
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className="group relative bg-zinc-50 dark:bg-zinc-800 overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300"
+              className="group relative bg-white dark:bg-zinc-800 overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300"
             >
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden">
@@ -99,7 +99,7 @@ export function Team({ content }: TeamProps) {
           {/* Diagonal background element */}
           <div className="absolute left-0 top-0 bottom-0 w-2 bg-yellow-400"></div>
 
-          <div className="bg-zinc-50 dark:bg-zinc-800 p-12 md:p-16 ml-8">
+          <div className="bg-white dark:bg-zinc-800 p-12 md:p-16 ml-8">
             <div className="max-w-4xl">
               <div className="inline-block bg-yellow-400 text-black px-4 py-1 text-sm mb-6">
                 Seit 2001

@@ -120,7 +120,7 @@ export function Services({ content }: ServicesProps) {
             return (
             <div
               key={index}
-              className="flex-shrink-0 w-72 bg-zinc-50 dark:bg-zinc-800 p-8 rounded-2xl border-2 border-zinc-200 dark:border-zinc-700 hover:border-yellow-400 transition-all"
+              className="flex-shrink-0 w-72 bg-white dark:bg-zinc-800 p-8 rounded-2xl border-2 border-zinc-200 dark:border-zinc-700 hover:border-yellow-400 transition-all"
             >
               <div className="w-14 h-14 bg-yellow-400 rounded-xl flex items-center justify-center mb-5">
                 <Icon className="w-7 h-7 text-black" />

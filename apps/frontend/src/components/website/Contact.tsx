@@ -83,7 +83,7 @@ export function Contact({ content }: ContactProps) {
             );
 
             const classes =
-              'group bg-zinc-50 dark:bg-zinc-800 p-8 rounded-2xl border-l-4 border-yellow-400 hover:border-l-8 hover:shadow-xl hover:scale-105 transition-all';
+              'group bg-white dark:bg-zinc-800 p-8 rounded-2xl border-l-4 border-yellow-400 hover:border-l-8 hover:shadow-xl hover:scale-105 transition-all';
 
             return isLink ? (
               <a
