@@ -111,6 +111,7 @@ export function Contact({ content }: ContactProps) {
                 referrerPolicy="no-referrer-when-downgrade"
                 className="absolute inset-0 w-full h-full border-0"
                 allowFullScreen
+                sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
               ></iframe>
             ) : (
               <>
