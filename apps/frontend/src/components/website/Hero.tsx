@@ -124,9 +124,9 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                 className={`group relative bg-yellow-400/30 dark:bg-yellow-400/25 rounded-2xl overflow-hidden border-2 border-yellow-400 transition-all duration-300 mb-8 ${
                   newsActive ? 'shadow-2xl scale-[1.01]' : 'hover:shadow-2xl hover:scale-[1.01]'
                 }`}
-                onTouchStart={() => setNewsActive(true)}
-                onTouchEnd={() => setNewsActive(false)}
-                onTouchCancel={() => setNewsActive(false)}
+                onPointerDown={() => setNewsActive(true)}
+                onPointerUp={() => setNewsActive(false)}
+                onPointerCancel={() => setNewsActive(false)}
               >
                 <div
                   className={`absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform origin-left transition-transform ${
@@ -196,9 +196,9 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                         ? 'bg-yellow-400 dark:bg-yellow-400 border-black text-black'
                         : 'hover:bg-yellow-400 dark:hover:bg-yellow-400 hover:border-black dark:hover:border-black'
                     }`}
-                    onTouchStart={() => setActiveStat(index)}
-                    onTouchEnd={() => setActiveStat(null)}
-                    onTouchCancel={() => setActiveStat(null)}
+                    onPointerDown={() => setActiveStat(index)}
+                    onPointerUp={() => setActiveStat(null)}
+                    onPointerCancel={() => setActiveStat(null)}
                   >
                     <div
                       className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity grid-fade group-hover:[--stat-grid-color:rgba(0,0,0,0.85)]"

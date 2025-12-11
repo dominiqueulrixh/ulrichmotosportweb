@@ -25,8 +25,11 @@ const iconMap: Record<string, LucideIcon> = {
 export function Services({ content }: ServicesProps) {
   const scrollRef = useRef<HTMLDivElement>(null);
   const boostRef = useRef(0);
-  const lastTouchXRef = useRef<number | null>(null);
-  const lastTouchTimeRef = useRef<number | null>(null);
+  const touchStartXRef = useRef<number | null>(null);
+  const touchStartScrollRef = useRef<number | null>(null);
+  const pauseTimeoutRef = useRef<number | null>(null);
+  const scrollAmountRef = useRef(0);
+  const pausedRef = useRef(false);
   const items = content.items ?? [];
   const repeatCount = Math.max(6, Math.ceil((items.length ? 12 / items.length : 12)));
   const loopItems = Array.from({ length: repeatCount }, () => items).flat();
@@ -35,19 +38,24 @@ export function Services({ content }: ServicesProps) {
     const scrollContainer = scrollRef.current;
     if (!scrollContainer) return;
 
-    let scrollAmount = 0;
+    let scrollAmount = scrollContainer.scrollLeft ?? 0;
+    scrollAmountRef.current = scrollAmount;
     const baseSpeed = 0.5;
 
     const scroll = () => {
+      if (pausedRef.current) return;
+
       const currentSpeed = baseSpeed + boostRef.current;
       scrollAmount += currentSpeed;
-      
+      scrollAmountRef.current = scrollAmount;
+
       if (scrollContainer) {
         scrollContainer.scrollLeft = scrollAmount;
-        
+
         // Reset when reaching the end (seamless loop)
         if (scrollAmount >= scrollContainer.scrollWidth / 2) {
           scrollAmount = 0;
+          scrollAmountRef.current = scrollAmount;
         }
       }
 
@@ -92,25 +100,45 @@ export function Services({ content }: ServicesProps) {
       <div className="relative z-10 w-screen max-w-none left-1/2 -translate-x-1/2 transform px-0 overflow-hidden">
         <div 
           ref={scrollRef}
-          className="flex gap-6 overflow-x-hidden px-6 sm:px-10"
+          className="flex gap-6 overflow-x-hidden px-6 sm:px-10 touch-pan-x"
           onTouchStart={event => {
             const touch = event.touches[0];
-            lastTouchXRef.current = touch.clientX;
-            lastTouchTimeRef.current = event.timeStamp;
+            touchStartXRef.current = touch.clientX;
+            touchStartScrollRef.current = scrollRef.current?.scrollLeft ?? 0;
+            pausedRef.current = true;
+            if (pauseTimeoutRef.current) {
+              window.clearTimeout(pauseTimeoutRef.current);
+              pauseTimeoutRef.current = null;
+            }
           }}
           onTouchMove={event => {
             const touch = event.touches[0];
-            const lastX = lastTouchXRef.current;
-            const lastTime = lastTouchTimeRef.current;
-            if (lastX !== null && lastTime !== null) {
-              const delta = Math.abs(touch.clientX - lastX);
-              const timeDelta = Math.max(1, event.timeStamp - lastTime); // ms
-              const velocity = delta / timeDelta; // px per ms
-              // Boost scales with swipe velocity so quick flicks accelerate noticeably on mobile.
-              boostRef.current = Math.min(6, velocity * 12);
+            if (touchStartXRef.current === null || touchStartScrollRef.current === null) return;
+            const dx = touch.clientX - touchStartXRef.current;
+            const targetScroll = touchStartScrollRef.current - dx;
+            scrollAmountRef.current = targetScroll;
+            if (scrollRef.current) {
+              scrollRef.current.scrollLeft = targetScroll;
             }
-            lastTouchXRef.current = touch.clientX;
-            lastTouchTimeRef.current = event.timeStamp;
+          }}
+          onTouchEnd={event => {
+            if (touchStartXRef.current !== null && touchStartScrollRef.current !== null) {
+              const endX = event.changedTouches[0]?.clientX ?? touchStartXRef.current;
+              const dx = endX - touchStartXRef.current;
+              const dt = Math.max(1, event.timeStamp);
+              const velocity = Math.abs(dx) / dt;
+              boostRef.current = Math.min(6, velocity * 12) * (dx < 0 ? 1 : -1);
+            }
+            touchStartXRef.current = null;
+            touchStartScrollRef.current = null;
+            pauseTimeoutRef.current = window.setTimeout(() => {
+              pausedRef.current = false;
+            }, 1200);
+          }}
+          onTouchCancel={() => {
+            touchStartXRef.current = null;
+            touchStartScrollRef.current = null;
+            pausedRef.current = false;
           }}
           style={{ scrollBehavior: 'auto' }}
         >

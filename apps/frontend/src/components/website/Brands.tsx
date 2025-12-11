@@ -49,9 +49,9 @@ export function Brands({ content }: BrandsProps) {
               className={`group relative bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 transition-all duration-300 block focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 ${
                 activeIndex === index ? 'border-yellow-400 shadow-2xl scale-105' : 'hover:border-yellow-400 hover:shadow-2xl hover:scale-105'
               }`}
-              onTouchStart={() => setActiveIndex(index)}
-              onTouchEnd={() => setActiveIndex(null)}
-              onTouchCancel={() => setActiveIndex(null)}
+              onPointerDown={() => setActiveIndex(index)}
+              onPointerUp={() => setActiveIndex(null)}
+              onPointerCancel={() => setActiveIndex(null)}
             >
               {/* Racing stripe */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>

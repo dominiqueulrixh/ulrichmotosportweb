@@ -49,16 +49,20 @@ export function Team({ content }: TeamProps) {
               className={`group relative bg-white dark:bg-zinc-800 overflow-hidden transition-all duration-300 ${
                 activeIndex === index ? 'shadow-2xl scale-105' : 'hover:shadow-2xl hover:scale-105'
               }`}
-              onTouchStart={() => setActiveIndex(index)}
-              onTouchEnd={() => setActiveIndex(null)}
-              onTouchCancel={() => setActiveIndex(null)}
+              onPointerDown={() => setActiveIndex(index)}
+              onPointerUp={() => setActiveIndex(null)}
+              onPointerCancel={() => setActiveIndex(null)}
             >
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden">
                 <ImageWithFallback
                   src={member.imageUrl ?? backupUser}
                   alt={member.name}
-                  className="w-full h-full object-cover grayscale group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 transition-all duration-500 group-hover:scale-105 group-active:scale-105 group-focus:scale-105"
+                  className={`w-full h-full object-cover transition-all duration-500 ${
+                    activeIndex === index
+                      ? 'grayscale-0 scale-105'
+                      : 'grayscale group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 group-hover:scale-105 group-active:scale-105 group-focus:scale-105'
+                  }`}
                 />
 
                 {/* Subtle checkered grid overlay - top right with fade (visible when not hovered) */}
