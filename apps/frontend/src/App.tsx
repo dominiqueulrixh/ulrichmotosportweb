@@ -46,9 +46,11 @@ export default function App() {
   const phoneCard = homepage?.contact.cards.find(card => card.type === 'phone');
   const emailCard = homepage?.contact.cards.find(card => card.type === 'email');
   const addressCard = homepage?.contact.cards.find(card => card.type === 'address');
+  const hoursCard = homepage?.contact.cards.find(card => card.type === 'hours');
 
   const contactPhone = phoneCard?.description || homepage?.navigation.phone || '';
   const contactEmail = emailCard?.description || homepage?.navigation.email || '';
+  const contactHours = hoursCard?.lines ?? (hoursCard?.description ? [hoursCard.description] : []);
   const addressLines = addressCard?.lines ?? [];
 
   const footerContent = {
@@ -57,7 +59,8 @@ export default function App() {
     legalText: homepage?.footer.legalText ?? '',
     addressLines,
     phone: contactPhone,
-    email: contactEmail
+    email: contactEmail,
+    hours: contactHours
   };
 
   const handleTabChange = (tab: TabKey) => {

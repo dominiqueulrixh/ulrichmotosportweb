@@ -1,5 +1,5 @@
 import React from 'react';
-import { Phone, Mail, MapPin } from 'lucide-react';
+import { Phone, Mail, MapPin, Clock } from 'lucide-react';
 import logoLight from '../../assets/LogoUlrichMotosportLight.png';
 import logoDark from '../../assets/LogoUlrichMotosportDark.png';
 import { TabKey } from '../../types/navigation';
@@ -13,6 +13,7 @@ interface FooterProps {
     addressLines: string[];
     phone?: string;
     email?: string;
+    hours?: string[];
   };
 }
 
@@ -126,6 +127,16 @@ export function Footer({ onNavigate, content }: FooterProps) {
                   </a>
                 </li>
               )}
+              {content.hours?.length ? (
+                <li className="flex items-start gap-3">
+                  <Clock className="w-5 h-5 text-yellow-400 flex-shrink-0 mt-0.5" />
+                  <div className="text-zinc-400 leading-relaxed space-y-1">
+                    {content.hours.map((line, index) => (
+                      <div key={`${line}-${index}`}>{line}</div>
+                    ))}
+                  </div>
+                </li>
+              ) : null}
             </ul>
           </div>
         </div>
