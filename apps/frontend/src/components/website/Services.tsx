@@ -26,12 +26,15 @@ const iconMap: Record<string, LucideIcon> = {
 
 export function Services({ content }: ServicesProps) {
   const items = content.items ?? [];
+  const repeatCount = Math.max(6, Math.ceil(items.length ? 12 / items.length : 12));
+  const loopItems = Array.from({ length: repeatCount }, () => items).flat();
+
   const autoScroll = useRef(
     AutoScroll({
       speed: 1,
-      startDelay: 1000,
-      stopOnInteraction: false,
-      stopOnMouseEnter: true,
+      startDelay: 800,
+      stopOnInteraction: true,
+      stopOnMouseEnter: false,
       stopOnFocusIn: false
     })
   );
@@ -52,28 +55,27 @@ export function Services({ content }: ServicesProps) {
     if (!emblaApi) return;
     const autoScrollApi = autoScroll.current;
 
-    const pause = () => autoScrollApi?.stop();
-    const resume = () => {
+    const ensurePlaying = () => {
       if (!autoScrollApi) return;
-      if (autoScrollApi.isPlaying()) {
-        autoScrollApi.reset();
-      } else {
-        autoScrollApi.play();
-      }
+      if (!autoScrollApi.isPlaying()) autoScrollApi.play();
     };
+
+    const pause = () => autoScrollApi?.stop();
 
     emblaApi.on('pointerDown', pause);
     emblaApi.on('dragStart', pause);
-    emblaApi.on('pointerUp', resume);
-    emblaApi.on('dragEnd', resume);
-    emblaApi.on('reInit', resume);
+    emblaApi.on('pointerUp', ensurePlaying);
+    emblaApi.on('dragEnd', ensurePlaying);
+    emblaApi.on('reInit', ensurePlaying);
+
+    ensurePlaying();
 
     return () => {
       emblaApi.off('pointerDown', pause);
       emblaApi.off('dragStart', pause);
-      emblaApi.off('pointerUp', resume);
-      emblaApi.off('dragEnd', resume);
-      emblaApi.off('reInit', resume);
+      emblaApi.off('pointerUp', ensurePlaying);
+      emblaApi.off('dragEnd', ensurePlaying);
+      emblaApi.off('reInit', ensurePlaying);
     };
   }, [emblaApi]);
 
@@ -103,14 +105,14 @@ export function Services({ content }: ServicesProps) {
 
       {/* Auto-scrolling Services - full-bleed */}
       <div className="relative z-10 w-screen max-w-none left-1/2 -translate-x-1/2 transform px-0 overflow-hidden">
-        <div className="px-6 sm:px-10">
+        <div className="px-0">
           <div
             ref={emblaRef}
-            className="overflow-hidden touch-pan-y overscroll-x-contain"
+            className="overflow-hidden touch-pan-x overscroll-x-contain"
             style={{ WebkitOverflowScrolling: 'touch' }}
           >
             <div className="flex gap-6">
-              {items.map((service, index) => {
+              {loopItems.map((service, index) => {
                 const Icon = iconMap[service.iconName ?? ''] ?? Wrench;
                 return (
                   <div
