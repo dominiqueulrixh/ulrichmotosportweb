@@ -46,7 +46,7 @@ export function Team({ content }: TeamProps) {
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className={`group relative bg-white dark:bg-zinc-800 overflow-hidden transition-all duration-300 ${
+              className={`group relative bg-white dark:bg-zinc-800 overflow-hidden rounded-2xl transition-all duration-300 ${
                 activeIndex === index ? 'shadow-2xl scale-105' : 'hover:shadow-2xl hover:scale-105'
               }`}
               onClick={() => setActiveIndex(index)}
