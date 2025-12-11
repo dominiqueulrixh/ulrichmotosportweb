@@ -95,6 +95,8 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
       .replace(/(^|[^*])\*(?!\*)([^*]+?)\*(?!\*)/g, '$1<em>$2</em>')
       .replace(/(^|[^_])_(?!_)([^_]+?)_(?!_)/g, '$1<em>$2</em>');
   }, [newsBar?.text]);
+  const [activeStat, setActiveStat] = React.useState<number | null>(null);
+  const [newsActive, setNewsActive] = React.useState(false);
 
   return (
     <section
@@ -118,8 +120,19 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
           {/* Text Content - improved hierarchy and spacing */}
           <div className="mt-12 sm:mt-0 space-y-6 lg:space-y-8 lg:-mt-14">
             {showNewsBar && (
-              <div className="group relative bg-yellow-400/30 dark:bg-yellow-400/25 rounded-2xl overflow-hidden border-2 border-yellow-400 hover:shadow-2xl hover:scale-[1.01] active:shadow-2xl active:scale-[1.01] transition-all duration-300 mb-8">
-                <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform scale-x-0 group-hover:scale-x-100 group-active:scale-x-100 transition-transform origin-left"></div>
+              <div
+                className={`group relative bg-yellow-400/30 dark:bg-yellow-400/25 rounded-2xl overflow-hidden border-2 border-yellow-400 transition-all duration-300 mb-8 ${
+                  newsActive ? 'shadow-2xl scale-[1.01]' : 'hover:shadow-2xl hover:scale-[1.01]'
+                }`}
+                onTouchStart={() => setNewsActive(true)}
+                onTouchEnd={() => setNewsActive(false)}
+                onTouchCancel={() => setNewsActive(false)}
+              >
+                <div
+                  className={`absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform origin-left transition-transform ${
+                    newsActive ? 'scale-x-100' : 'scale-x-0 group-hover:scale-x-100'
+                  }`}
+                ></div>
                 <div className="p-6 md:p-7 lg:p-8 space-y-3">
                   <h3 className="text-xl md:text-2xl lg:text-3xl text-black dark:text-white font-semibold mb-3">
                     {newsBar?.title}
@@ -178,7 +191,14 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                 {content.stats.map((stat, index) => (
                   <div
                     key={`${stat.value}-${index}`}
-                    className="relative bg-black dark:bg-zinc-900 p-6 rounded-2xl overflow-hidden group hover:bg-yellow-400 dark:hover:bg-yellow-400 active:bg-yellow-400 dark:active:bg-yellow-400 transition-all border-2 border-transparent hover:border-black dark:hover:border-black active:border-black dark:active:border-black flex flex-col items-center justify-center text-center"
+                    className={`relative bg-black dark:bg-zinc-900 p-6 rounded-2xl overflow-hidden group transition-all border-2 border-transparent flex flex-col items-center justify-center text-center ${
+                      activeStat === index
+                        ? 'bg-yellow-400 dark:bg-yellow-400 border-black text-black'
+                        : 'hover:bg-yellow-400 dark:hover:bg-yellow-400 hover:border-black dark:hover:border-black'
+                    }`}
+                    onTouchStart={() => setActiveStat(index)}
+                    onTouchEnd={() => setActiveStat(null)}
+                    onTouchCancel={() => setActiveStat(null)}
                   >
                     <div
                       className="absolute inset-0 opacity-10 group-hover:opacity-20 transition-opacity grid-fade group-hover:[--stat-grid-color:rgba(0,0,0,0.85)]"

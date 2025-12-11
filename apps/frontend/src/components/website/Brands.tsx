@@ -12,6 +12,7 @@ interface BrandsProps {
 
 export function Brands({ content }: BrandsProps) {
   const brands = content.items ?? [];
+  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 
   return (
     <section id="brands" className="py-24 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
@@ -45,7 +46,12 @@ export function Brands({ content }: BrandsProps) {
               href={brand.linkUrl ?? undefined}
               target={brand.linkUrl ? '_blank' : undefined}
               rel={brand.linkUrl ? 'noopener noreferrer' : undefined}
-              className="group relative bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 hover:border-yellow-400 hover:shadow-2xl hover:scale-105 transition-all duration-300 block focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 active:border-yellow-400 active:shadow-2xl active:scale-105"
+              className={`group relative bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border-2 border-zinc-200 dark:border-zinc-800 transition-all duration-300 block focus:outline-none focus-visible:ring-4 focus-visible:ring-yellow-300 ${
+                activeIndex === index ? 'border-yellow-400 shadow-2xl scale-105' : 'hover:border-yellow-400 hover:shadow-2xl hover:scale-105'
+              }`}
+              onTouchStart={() => setActiveIndex(index)}
+              onTouchEnd={() => setActiveIndex(null)}
+              onTouchCancel={() => setActiveIndex(null)}
             >
               {/* Racing stripe */}
               <div className="absolute top-0 left-0 right-0 h-2 bg-yellow-400 transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left"></div>
@@ -56,7 +62,7 @@ export function Brands({ content }: BrandsProps) {
                     <img
                       src={brand.logoUrl}
                       alt={brand.name}
-                      className="mx-auto h-20 w-auto object-contain mb-6 grayscale group-hover:grayscale-0 transition duration-300"
+                      className="mx-auto h-20 w-auto object-contain mb-6 transition duration-300"
                       loading="lazy"
                     />
                   ) : (

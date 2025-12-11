@@ -15,6 +15,7 @@ interface TeamProps {
 
 export function Team({ content }: TeamProps) {
   const teamMembers = content.members ?? [];
+  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 
   return (
     <section id="team" className="py-24 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
@@ -45,7 +46,12 @@ export function Team({ content }: TeamProps) {
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className="group relative bg-white dark:bg-zinc-800 overflow-hidden hover:shadow-2xl hover:scale-105 transition-all duration-300"
+              className={`group relative bg-white dark:bg-zinc-800 overflow-hidden transition-all duration-300 ${
+                activeIndex === index ? 'shadow-2xl scale-105' : 'hover:shadow-2xl hover:scale-105'
+              }`}
+              onTouchStart={() => setActiveIndex(index)}
+              onTouchEnd={() => setActiveIndex(null)}
+              onTouchCancel={() => setActiveIndex(null)}
             >
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden">
