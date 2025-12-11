@@ -18,7 +18,7 @@ const heroGridFadeStyle: React.CSSProperties = {
 };
 
 const statCardFadeStyle: React.CSSProperties = {
-  '--grid-fade-angle': 'to bottom left',
+  '--grid-fade-angle': 'to bottom right',
   '--grid-fade-mid-stop': '60%',
   '--grid-fade-end-stop': '100%'
 };
