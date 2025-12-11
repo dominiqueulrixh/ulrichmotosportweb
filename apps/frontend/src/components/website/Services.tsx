@@ -27,11 +27,13 @@ export function Services({ content }: ServicesProps) {
   const boostRef = useRef(0);
   const touchStartXRef = useRef<number | null>(null);
   const touchStartScrollRef = useRef<number | null>(null);
+  const touchStartYRef = useRef<number | null>(null);
   const pauseTimeoutRef = useRef<number | null>(null);
   const scrollAmountRef = useRef(0);
   const pausedRef = useRef(false);
   const touchStartTimeRef = useRef<number | null>(null);
   const driftRef = useRef(0);
+  const horizontalLockRef = useRef(false);
   const items = content.items ?? [];
   const repeatCount = Math.max(6, Math.ceil((items.length ? 12 / items.length : 12)));
   const loopItems = Array.from({ length: repeatCount }, () => items).flat();
@@ -114,8 +116,10 @@ export function Services({ content }: ServicesProps) {
           onTouchStart={event => {
             const touch = event.touches[0];
             touchStartXRef.current = touch.clientX;
+            touchStartYRef.current = touch.clientY;
             touchStartScrollRef.current = scrollRef.current?.scrollLeft ?? 0;
             touchStartTimeRef.current = event.timeStamp;
+            horizontalLockRef.current = false;
             pausedRef.current = true;
             if (pauseTimeoutRef.current) {
               window.clearTimeout(pauseTimeoutRef.current);
@@ -126,6 +130,15 @@ export function Services({ content }: ServicesProps) {
             const touch = event.touches[0];
             if (touchStartXRef.current === null || touchStartScrollRef.current === null) return;
             const dx = touch.clientX - touchStartXRef.current;
+            const dy = touch.clientY - (touchStartYRef.current ?? touch.clientY);
+            if (!horizontalLockRef.current) {
+              if (Math.abs(dx) > 8 && Math.abs(dx) > Math.abs(dy)) {
+                horizontalLockRef.current = true;
+              } else {
+                return; // let vertical scroll happen until we decide
+              }
+            }
+            event.preventDefault();
             const targetScroll = touchStartScrollRef.current - dx;
             scrollAmountRef.current = targetScroll;
             if (scrollRef.current) {
@@ -138,11 +151,15 @@ export function Services({ content }: ServicesProps) {
               const dx = endX - touchStartXRef.current;
               const dt = Math.max(1, (event.timeStamp ?? 0) - (touchStartTimeRef.current ?? event.timeStamp - 1));
               const velocity = dx / dt; // px per ms (can be negative for backwards fling)
-              driftRef.current = Math.max(-8, Math.min(8, velocity * 28));
+              if (horizontalLockRef.current) {
+                driftRef.current = Math.max(-8, Math.min(8, velocity * 28));
+              }
             }
             touchStartXRef.current = null;
             touchStartScrollRef.current = null;
+            touchStartYRef.current = null;
             touchStartTimeRef.current = null;
+            horizontalLockRef.current = false;
             pausedRef.current = false;
             pauseTimeoutRef.current = window.setTimeout(() => {
               pausedRef.current = false;
@@ -151,7 +168,9 @@ export function Services({ content }: ServicesProps) {
           onTouchCancel={() => {
             touchStartXRef.current = null;
             touchStartScrollRef.current = null;
+            touchStartYRef.current = null;
             touchStartTimeRef.current = null;
+            horizontalLockRef.current = false;
             pausedRef.current = false;
           }}
           style={{ scrollBehavior: 'auto' }}
