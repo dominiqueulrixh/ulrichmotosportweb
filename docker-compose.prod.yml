@@ -31,11 +31,15 @@ services:
       DATABASE_NAME: ${DATABASE_NAME:-strapi}
       DATABASE_USERNAME: ${DATABASE_USERNAME:-strapi}
       DATABASE_PASSWORD: ${DATABASE_PASSWORD:-super-secure-password}
+      NODE_ENV: production
       APP_KEYS: ${APP_KEYS}
       API_TOKEN_SALT: ${API_TOKEN_SALT}
       ADMIN_JWT_SECRET: ${ADMIN_JWT_SECRET}
       JWT_SECRET: ${JWT_SECRET}
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
+      PUBLIC_URL: ${BACKEND_PUBLIC_URL:-https://admin.ulrich-motosport.ch}
+      ADMIN_URL: ${BACKEND_ADMIN_URL:-https://admin.ulrich-motosport.ch/admin}
+      CORS_ORIGIN: ${BACKEND_CORS_ORIGIN:-https://ulrich-motosport.ch,https://admin.ulrich-motosport.ch}
       PORT: ${BACKEND_PORT:-1437}
     depends_on:
       - postgres

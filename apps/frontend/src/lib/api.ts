@@ -43,10 +43,14 @@ type FetchOptions = {
   stripIds?: boolean;
 };
 
+const DEFAULT_API_URL = import.meta.env.PROD
+    ? 'https://admin.ulrich-motosport.ch'
+    : 'http://localhost:1437';
+
 const API_URL = (
     import.meta.env.VITE_API_URL ??
     import.meta.env.VITE_STRAPI_URL ??
-    'http://localhost:1437'
+    DEFAULT_API_URL
 ).replace(/\/$/, '');
 
 ;(window as any).__API_URL_TEST__ = API_URL;
