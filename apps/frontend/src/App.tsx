@@ -120,7 +120,31 @@ export default function App() {
         {loading && <LoadingOverlay />}
         <main className={`transition-all duration-300 ${loading ? 'opacity-0 blur-sm pointer-events-none select-none' : 'opacity-100'}`}>
           {error && (
-            <div className="py-24 text-center text-red-500">{error}</div>
+            <div className="py-24 flex justify-center">
+              <div className="relative max-w-2xl w-full bg-white dark:bg-zinc-900 border-2 border-yellow-400 rounded-2xl p-8 shadow-xl overflow-hidden">
+                <div className="absolute top-0 left-0 right-0 h-1 bg-yellow-400 animate-pulse"></div>
+                <div className="flex flex-col items-center gap-6 text-center">
+                  <div className="w-16 h-16 rounded-full bg-yellow-400 flex items-center justify-center text-3xl text-black shadow-lg">
+                    🏍️
+                  </div>
+                  <div className="space-y-2">
+                    <h2 className="text-3xl text-black dark:text-white font-semibold">
+                      Unser Motor ist kurz abgesoffen…
+                    </h2>
+                    <p className="text-lg text-zinc-700 dark:text-zinc-300">
+                      Wir schrauben schon dran! Versuch es gleich nochmal oder lade die Seite neu.
+                    </p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => window.location.reload()}
+                    className="inline-flex items-center justify-center px-6 py-3 bg-yellow-400 text-black font-medium rounded-lg shadow hover:shadow-lg hover:-translate-y-0.5 transition-transform"
+                  >
+                    Neu laden
+                  </button>
+                </div>
+              </div>
+            </div>
           )}
           {!loading && !error && renderContent()}
         </main>
