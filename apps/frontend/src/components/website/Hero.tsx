@@ -1,7 +1,7 @@
 import React from 'react';
 import { ImageWithFallback } from '../figma/ImageWithFallback';
 import { TabKey } from '../../types/navigation';
-import type { HeroContent, NewsBar } from '../../types/homepage';
+import type { HeroContent, HeroImage, NewsBar } from '../../types/homepage';
 
 interface HeroProps {
   onNavigate: (tab: TabKey) => void;
@@ -52,12 +52,13 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
   const mainLines = effectiveLines.slice(0, -1);
   const lastLine = effectiveLines.at(-1) ?? '';
   const fallbackImage = 'https://images.unsplash.com/photo-1558981806-ec527fa84c39?w=800&q=80';
+  const fallbackSlide: HeroImage = { url: fallbackImage };
   const slides = (content.images && content.images.length > 0
     ? content.images
     : content.imageUrl
-      ? [content.imageUrl]
-      : [fallbackImage]
-  ).filter(Boolean);
+      ? [{ url: content.imageUrl }]
+      : [fallbackSlide]
+  ).filter((image): image is HeroImage => Boolean(image?.url));
   const [activeIndex, setActiveIndex] = React.useState(0);
   const slideCount = slides.length;
 
@@ -238,9 +239,9 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                   const isActive = index === activeIndex;
                   return (
                     <ImageWithFallback
-                      key={`${src}-${index}`}
-                      src={src}
-                      alt="Motorrad Service"
+                      key={`${src.url}-${index}`}
+                      src={src.url}
+                      alt={src.caption || 'Motorrad Service'}
                       className="absolute inset-0 w-full h-full object-cover transition-opacity duration-[1800ms]"
                       style={{
                         opacity: isActive ? 1 : 0,
@@ -250,6 +251,23 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                     />
                   );
                 })}
+
+                {slides[activeIndex]?.caption && (
+                  <div className="absolute top-0 right-0 p-4 sm:p-5 pointer-events-none z-20">
+                    <div className="relative max-w-[82%] sm:max-w-[70%] bg-black/75 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md text-right">
+                      <div className="absolute inset-0 bg-gradient-to-l from-black/70 via-black/55 to-transparent" />
+                      <div className="relative px-5 sm:px-6 py-4 sm:py-5 space-y-3">
+                        <p
+                          className="text-lg sm:text-xl leading-snug text-white font-semibold"
+                          style={{ fontFamily: "'Bebas Neue', 'DM Sans', sans-serif", letterSpacing: '0.1em' }}
+                        >
+                          {slides[activeIndex]?.caption}
+                        </p>
+                        <div className="h-1 w-14 bg-yellow-400 ml-auto"></div>
+                      </div>
+                    </div>
+                  </div>
+                )}
 
                 {/* Simple yellow accent bar */}
                 <div className="absolute bottom-0 left-0 right-0 h-3 bg-yellow-400"></div>

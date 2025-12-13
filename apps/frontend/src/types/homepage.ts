@@ -4,6 +4,11 @@ export interface HeroStat {
   description?: string;
 }
 
+export interface HeroImage {
+  url: string;
+  caption?: string | null;
+}
+
 export interface HeroContent {
   eyebrow?: string;
   title: string;
@@ -11,7 +16,7 @@ export interface HeroContent {
   primaryCta: { label: string; target: string };
   secondaryCta: { label: string; target: string };
   imageUrl?: string;
-  images?: string[];
+  images?: HeroImage[];
   stats: HeroStat[];
 }
 
