@@ -428,9 +428,9 @@ const mapHero = (data: HeroApiResponse, statsData: HeroStatEntry[]): HomepageCon
   const imageUrls = imageMedia.map(entry => entry.url);
   const stats: HeroContent['stats'] =
     (statsData ?? []).map(stat => ({
-      value: stat?.value ?? '',
-      label: stat?.label ?? '',
-      description: stat?.description ?? ''
+      value: normalizeNewlines(stat?.value),
+      label: normalizeNewlines(stat?.label),
+      description: normalizeNewlines(stat?.description)
     }));
 
   return {

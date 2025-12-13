@@ -221,7 +221,15 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                         className="text-xs text-white group-hover:text-black dark:group-hover:text-black leading-tight uppercase tracking-wider transition-colors whitespace-pre-line break-words"
                         style={{ wordBreak: 'break-word', hyphens: 'auto' }}
                       >
-                        {stat.label}
+                        {stat.label
+                          ?.split(/\r?\n/)
+                          .filter(Boolean)
+                          .map((line, i, arr) => (
+                            <React.Fragment key={`${line}-${i}`}>
+                              {line}
+                              {i < arr.length - 1 && <br />}
+                            </React.Fragment>
+                          ))}
                       </div>
                     </div>
                   </div>
