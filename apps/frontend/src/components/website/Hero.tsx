@@ -264,13 +264,13 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                   <div className="absolute top-0 right-0 p-4 sm:p-5 pointer-events-none z-20">
                     <div
                       className="relative max-w-[82%] sm:max-w-[70%] rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md text-right"
-                      style={{ backgroundColor: 'rgba(0, 0, 0, 0.58)' }}
+                      style={{ backgroundColor: 'rgba(0, 0, 0, 0.42)' }}
                     >
                       <div
                         className="absolute inset-0"
                         style={{
                           background:
-                            'linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0.35) 75%, rgba(0,0,0,0) 100%)'
+                            'linear-gradient(90deg, rgba(0,0,0,0.45) 0%, rgba(0,0,0,0.32) 45%, rgba(0,0,0,0.18) 75%, rgba(0,0,0,0.02) 100%)'
                         }}
                       />
                       <div className="relative px-6 sm:px-8 py-5 sm:py-6 space-y-3">
