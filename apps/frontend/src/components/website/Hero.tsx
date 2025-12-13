@@ -18,7 +18,7 @@ const heroGridFadeStyle: React.CSSProperties = {
 };
 
 const statCardFadeStyle: React.CSSProperties = {
-  '--grid-fade-angle': 'to bottom left',
+  '--grid-fade-angle': 'to bottom right',
   '--grid-fade-mid-stop': '60%',
   '--grid-fade-end-stop': '100%'
 };
@@ -173,7 +173,7 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
               <button
                 type="button"
                 onClick={() => onNavigate((content.primaryCta?.target as TabKey) ?? 'contact')}
-                className="bg-yellow-400 text-black px-10 py-5 text-lg text-center hover:bg-yellow-500 hover:scale-105 transition-all inline-flex items-center justify-center gap-3 group shadow-lg hover:shadow-xl"
+                className="bg-yellow-400 text-black px-10 py-5 text-lg text-center rounded-xl hover:bg-yellow-500 hover:scale-105 transition-all inline-flex items-center justify-center gap-3 group shadow-lg hover:shadow-xl"
               >
                 <span>{content.primaryCta?.label ?? 'Termin vereinbaren'}</span>
                 <span className="transform group-hover:translate-x-1 transition-transform text-xl">→</span>
@@ -182,7 +182,7 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
                 <button
                   type="button"
                   onClick={() => onNavigate((content.secondaryCta?.target as TabKey) ?? 'services')}
-                  className="border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white px-10 py-5 text-lg text-center hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-black hover:scale-105 transition-all"
+                  className="border-2 border-zinc-900 dark:border-white text-zinc-900 dark:text-white px-10 py-5 text-lg text-center rounded-xl hover:bg-zinc-900 hover:text-white dark:hover:bg-white dark:hover:text-black hover:scale-105 transition-all"
                 >
                   {content.secondaryCta.label}
                 </button>

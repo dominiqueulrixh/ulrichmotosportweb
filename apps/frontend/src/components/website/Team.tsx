@@ -46,7 +46,7 @@ export function Team({ content }: TeamProps) {
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className={`group relative bg-white dark:bg-zinc-800 overflow-hidden transition-all duration-300 ${
+              className={`group relative bg-white dark:bg-zinc-800 overflow-hidden rounded-2xl transition-all duration-300 ${
                 activeIndex === index ? 'shadow-2xl scale-105' : 'hover:shadow-2xl hover:scale-105'
               }`}
               onClick={() => setActiveIndex(index)}
@@ -64,8 +64,12 @@ export function Team({ content }: TeamProps) {
                 />
 
                 {/* Subtle checkered grid overlay - top right with fade (visible when not hovered) */}
-                <div 
-                  className="absolute top-0 right-0 w-48 h-48 opacity-30 group-hover:opacity-0 transition-opacity duration-500"
+                <div
+                  className={`absolute top-0 right-0 w-48 h-48 transition-opacity duration-500 ${
+                    activeIndex === index
+                      ? 'opacity-0'
+                      : 'opacity-30 group-hover:opacity-0 group-active:opacity-0 group-focus:opacity-0'
+                  }`}
                   style={{
                     maskImage: 'linear-gradient(to bottom left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 70%)',
                     WebkitMaskImage: 'linear-gradient(to bottom left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 70%)'
