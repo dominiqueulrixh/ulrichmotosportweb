@@ -254,9 +254,18 @@ export function Hero({ onNavigate, content, newsBar }: HeroProps) {
 
                 {slides[activeIndex]?.caption && (
                   <div className="absolute top-0 right-0 p-4 sm:p-5 pointer-events-none z-20">
-                    <div className="relative max-w-[82%] sm:max-w-[70%] bg-black/75 rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md text-right">
-                      <div className="absolute inset-0 bg-gradient-to-l from-black/70 via-black/55 to-transparent" />
-                      <div className="relative px-5 sm:px-6 py-4 sm:py-5 space-y-3">
+                    <div
+                      className="relative max-w-[82%] sm:max-w-[70%] rounded-2xl overflow-hidden shadow-2xl backdrop-blur-md text-right"
+                      style={{ backgroundColor: 'rgba(0, 0, 0, 0.58)' }}
+                    >
+                      <div
+                        className="absolute inset-0"
+                        style={{
+                          background:
+                            'linear-gradient(90deg, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.65) 45%, rgba(0,0,0,0.35) 75%, rgba(0,0,0,0) 100%)'
+                        }}
+                      />
+                      <div className="relative px-6 sm:px-8 py-5 sm:py-6 space-y-3">
                         <p
                           className="text-lg sm:text-xl leading-snug text-white font-semibold"
                           style={{ fontFamily: "'Bebas Neue', 'DM Sans', sans-serif", letterSpacing: '0.1em' }}
