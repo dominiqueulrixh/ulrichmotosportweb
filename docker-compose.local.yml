@@ -75,6 +75,8 @@ services:
     environment:
       NODE_ENV: production
       PORT: ${STRAPI_PROD_PORT:-1437}
+      PUBLIC_URL: http://localhost:${STRAPI_PROD_PORT:-1437}
+      ADMIN_URL: http://localhost:${STRAPI_PROD_PORT:-1437}/admin
       APP_KEYS: ${STRAPI_PROD_APP_KEYS}
       API_TOKEN_SALT: ${STRAPI_PROD_API_TOKEN_SALT}
       ADMIN_JWT_SECRET: ${STRAPI_PROD_ADMIN_JWT_SECRET}
