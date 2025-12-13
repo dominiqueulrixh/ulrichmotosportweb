@@ -132,7 +132,7 @@ export default function App() {
                         <img
                           src={FaviconBlack}
                           alt="Ulrich Motosport Logo"
-                          className="w-10 h-10 object-contain"
+                          className="w-12 h-12 object-contain"
                         />
                       </div>
                       <div className="space-y-2">
