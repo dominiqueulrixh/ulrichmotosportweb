@@ -35,7 +35,7 @@ services:
       TRANSFER_TOKEN_SALT: ${TRANSFER_TOKEN_SALT}
       PUBLIC_URL: ${BACKEND_PUBLIC_URL:-https://admin.ulrich-motosport.ch}
       ADMIN_URL: ${BACKEND_ADMIN_URL:-https://admin.ulrich-motosport.ch/admin}
-      CORS_ORIGIN: ${BACKEND_CORS_ORIGIN:-https://ulrich-motosport.ch,https://admin.ulrich-motosport.ch}
+      CORS_ORIGIN: ${BACKEND_CORS_ORIGIN:-https://ulrich-motosport.ch,https://www.ulrich-motosport.ch,https://admin.ulrich-motosport.ch}
       PORT: ${BACKEND_PORT:-1437}
     depends_on:
       - postgres
