@@ -2685,3 +2685,15 @@ html {
     gap: 20px;
   }
 }
+
+/* Global cursor for clickable elements to ensure native pointer feedback */
+a[href],
+button,
+[role='button'],
+input[type='submit'],
+input[type='button'],
+input[type='reset'],
+label[for],
+summary {
+  cursor: pointer;
+}

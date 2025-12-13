@@ -135,6 +135,10 @@
     font-family: 'Bebas Neue', 'DM Sans', sans-serif;
     letter-spacing: 0.08em;
   }
+
+  a[href], button, [role='button'], input[type='submit'], input[type='button'], input[type='reset'], label[for], summary {
+    cursor: pointer;
+  }
 }
 
 /**
