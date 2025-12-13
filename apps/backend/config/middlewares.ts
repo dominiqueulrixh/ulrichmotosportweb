@@ -1,7 +1,7 @@
 export default ({ env }) => {
   const allowedOrigins = env.array(
     'CORS_ORIGIN',
-    'http://localhost:5173,http://localhost:8081,http://localhost:1337,https://ulrich-motosport.ch,https://admin.ulrich-motosport.ch'
+    'http://localhost:5173,http://localhost:8081,http://localhost:1337,https://ulrich-motosport.ch,https://www.ulrich-motosport.ch,https://admin.ulrich-motosport.ch'
   );
 
   return [
