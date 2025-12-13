@@ -19,13 +19,13 @@ export function Header({
 }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const navLinks: { label: string; tab: TabKey }[] = [
-    { label: 'Home', tab: 'home' },
-    { label: 'Services', tab: 'services' },
-    { label: 'Marken', tab: 'brands' },
-    { label: 'Occasionen', tab: 'occasions' },
-    { label: 'Über uns', tab: 'about' },
-    { label: 'Kontakt', tab: 'contact' }
+  const navLinks: { label: string; tab: TabKey; gtmLabel: string }[] = [
+    { label: 'Home', tab: 'home', gtmLabel: 'nav_home' },
+    { label: 'Services', tab: 'services', gtmLabel: 'nav_services' },
+    { label: 'Marken', tab: 'brands', gtmLabel: 'nav_brands' },
+    { label: 'Occasionen', tab: 'occasions', gtmLabel: 'nav_occasions' },
+    { label: 'Über uns', tab: 'about', gtmLabel: 'nav_about' },
+    { label: 'Kontakt', tab: 'contact', gtmLabel: 'nav_contact' }
   ];
 
   return (
@@ -38,6 +38,7 @@ export function Header({
             type="button"
             onClick={() => onTabChange('home')}
             className="flex items-center"
+            data-gtm-nav="logo_home"
           >
             <img src={logoLight} alt="Ulrich Motosport" className="h-16 md:h-20 object-contain dark:hidden" />
             <img src={logoDark} alt="Ulrich Motosport" className="h-16 md:h-20 object-contain hidden dark:block" />
@@ -50,6 +51,7 @@ export function Header({
                 key={link.tab}
                 type="button"
                 onClick={() => onTabChange(link.tab)}
+                data-gtm-nav={link.gtmLabel}
                 className={`text-black dark:text-white hover:text-yellow-400 dark:hover:text-yellow-400 transition-colors py-2 px-1 relative group ${
                   activeTab === link.tab ? 'text-yellow-400 dark:text-yellow-400 font-semibold' : ''
                 }`}
@@ -97,6 +99,7 @@ export function Header({
                   onTabChange(link.tab);
                   setIsMenuOpen(false);
                 }}
+                data-gtm-nav={link.gtmLabel}
                 className={`w-full text-left py-4 px-3 -mx-3 rounded-lg text-black dark:text-white hover:text-yellow-400 dark:hover:text-yellow-400 hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-all ${
                   activeTab === link.tab ? 'bg-zinc-100 dark:bg-zinc-800 text-yellow-400' : ''
                 }`}

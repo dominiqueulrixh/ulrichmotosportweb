@@ -48,6 +48,7 @@ export function Occasions({ isDarkMode }: OccasionsProps) {
           className="wrapper wrapperJSON"
           data-ui="1245"
           data-fzl={isDarkMode ? '1518' : '1519'}
+          data-gtm-occasions="feed"
         ></div>
       </div>
     </section>

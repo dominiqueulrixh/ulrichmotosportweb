@@ -112,6 +112,7 @@ export function Contact({ content }: ContactProps) {
                 className="absolute inset-0 w-full h-full border-0"
                 allowFullScreen
                 sandbox="allow-scripts allow-same-origin allow-popups allow-forms"
+                data-gtm-map="map_embed"
               ></iframe>
             ) : (
               <>
@@ -134,6 +135,17 @@ export function Contact({ content }: ContactProps) {
                   </p>
                 </div>
               </>
+            )}
+            {content.mapEmbedUrl && (
+              <a
+                href={content.mapEmbedUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-gtm-map="open_google_maps"
+                className="absolute bottom-4 right-4 z-10 bg-yellow-400 text-black px-4 py-2 rounded-lg shadow hover:bg-yellow-500 transition"
+              >
+                In Google Maps öffnen
+              </a>
             )}
           </div>
         </div>
