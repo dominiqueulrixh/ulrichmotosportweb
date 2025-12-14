@@ -13,6 +13,8 @@ interface ServiceDetailsProps {
 
 export function ServiceDetails({ onNavigateToContact, content }: ServiceDetailsProps) {
   const categories = content.categories ?? [];
+  const heading = (content.heading ?? '').trim() || 'Wir halten Dein Bike im Schuss';
+  const subheading = (content.subheading ?? '').trim() || 'Wir helfen Dir bei der Individualisierung und technischen Änderungen an Deinem Bike und kümmern uns selbstverständlich auch um deinen Oldtimer oder Veteran.';
 
   return (
     <section className="py-24 bg-zinc-50 dark:bg-zinc-900">
@@ -27,11 +29,13 @@ export function ServiceDetails({ onNavigateToContact, content }: ServiceDetailsP
             </div>
           </div>
           <h2 className="text-4xl md:text-5xl text-black dark:text-white">
-            Wir halten Dein Bike im Schuss
+            {heading}
           </h2>
-          <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto">
-            Wir helfen Dir bei der Individualisierung und technischen Änderungen an Deinem Bike und kümmern uns selbstverständlich auch um deinen Oldtimer oder Veteran.
-          </p>
+          {subheading && (
+            <p className="text-xl text-zinc-600 dark:text-zinc-400 max-w-3xl mx-auto">
+              {subheading}
+            </p>
+          )}
         </div>
 
         {/* Service Categories */}
