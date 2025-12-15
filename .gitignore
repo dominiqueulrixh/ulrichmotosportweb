@@ -2,6 +2,9 @@
 
 apps/backend/node_modules/
 apps/frontend/node_modules/
+apps/frontend/src/assets/Favicon.psd
+apps/frontend/public/statistics/index.html
+
 
 deploy/synology/.env
 apps/backend/.env
