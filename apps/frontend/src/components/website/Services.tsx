@@ -1,7 +1,19 @@
 import React, { useEffect, useRef } from 'react';
 import useEmblaCarousel from 'embla-carousel-react@8.6.0';
 import AutoScroll from 'embla-carousel-auto-scroll';
-import { Wrench, Settings, Sparkles, History, FileCheck, Bike, Key, Package, LucideIcon } from 'lucide-react';
+import {
+    Wrench,
+    Settings,
+    Sparkles,
+    History,
+    FileCheck,
+    Bike,
+    Key,
+    Package,
+    LucideIcon,
+    Battery,
+    Cable
+} from 'lucide-react';
 import type { ServiceCard } from '../../types/homepage';
 
 interface ServicesProps {
@@ -14,14 +26,16 @@ interface ServicesProps {
 }
 
 const iconMap: Record<string, LucideIcon> = {
-  Wrench,
-  Settings,
-  Sparkles,
-  History,
-  FileCheck,
-  Bike,
-  Key,
-  Package
+    Battery,
+    Bike,
+    FileCheck,
+    History,
+    Key,
+    Package,
+    Settings,
+    Sparkles,
+    Wrench,
+    Cable,
 };
 
 export function Services({ content }: ServicesProps) {
