@@ -15,7 +15,6 @@ interface TeamProps {
 
 export function Team({ content }: TeamProps) {
   const teamMembers = content.members ?? [];
-  const [activeIndex, setActiveIndex] = React.useState<number | null>(null);
 
   return (
     <section id="team" className="py-24 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
@@ -46,30 +45,19 @@ export function Team({ content }: TeamProps) {
           {teamMembers.map((member, index) => (
             <div
               key={index}
-              className={`group relative bg-white dark:bg-zinc-800 overflow-hidden rounded-2xl transition-all duration-300 ${
-                activeIndex === index ? 'shadow-2xl scale-105' : 'hover:shadow-2xl hover:scale-105'
-              }`}
-              onClick={() => setActiveIndex(index)}
+              className="group relative bg-white dark:bg-zinc-800 overflow-hidden rounded-2xl transition-all duration-300 hover:shadow-2xl hover:scale-105"
             >
               {/* Image */}
               <div className="relative aspect-[3/4] overflow-hidden">
                 <ImageWithFallback
                   src={member.imageUrl ?? backupUser}
                   alt={member.name}
-                  className={`w-full h-full object-cover transition-all duration-500 ${
-                    activeIndex === index
-                      ? 'grayscale-0 scale-105'
-                      : 'grayscale group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 group-hover:scale-105 group-active:scale-105 group-focus:scale-105'
-                  }`}
+                  className="w-full h-full object-cover transition-all duration-500 grayscale group-hover:grayscale-0 group-active:grayscale-0 group-focus:grayscale-0 group-hover:scale-105 group-active:scale-105 group-focus:scale-105"
                 />
 
                 {/* Subtle checkered grid overlay - top right with fade (visible when not hovered) */}
                 <div
-                  className={`absolute top-0 right-0 w-48 h-48 transition-opacity duration-500 ${
-                    activeIndex === index
-                      ? 'opacity-0'
-                      : 'opacity-30 group-hover:opacity-0 group-active:opacity-0 group-focus:opacity-0'
-                  }`}
+                  className="absolute top-0 right-0 w-48 h-48 transition-opacity duration-500 opacity-30 group-hover:opacity-0 group-active:opacity-0 group-focus:opacity-0"
                   style={{
                     maskImage: 'linear-gradient(to bottom left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 70%)',
                     WebkitMaskImage: 'linear-gradient(to bottom left, rgba(0,0,0,1) 0%, rgba(0,0,0,0.8) 30%, transparent 70%)'
