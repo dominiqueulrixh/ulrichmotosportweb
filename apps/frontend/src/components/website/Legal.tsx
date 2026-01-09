@@ -204,7 +204,9 @@ export function Legal({ isDarkMode, onNavigateToContact }: LegalProps) {
               <h4 className="text-sm uppercase tracking-[0.2em] text-yellow-500 mb-2">{detail.label}</h4>
               <ul className="space-y-1 text-lg font-medium">
                 {detail.value.map((line) => (
-                  <li key={line}>{line}</li>
+                  <li key={line}>
+                    {line === 'Ulrich Motosport' ? <span translate="no">{line}</span> : line}
+                  </li>
                 ))}
               </ul>
             </div>

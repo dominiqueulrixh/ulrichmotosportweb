@@ -105,7 +105,7 @@ export function Footer({ onNavigate, content }: FooterProps) {
                 <span className="text-zinc-400 leading-relaxed">
                   {addressLines.map((line, index) => (
                     <React.Fragment key={`${line}-${index}`}>
-                      {line}
+                      <span translate="no">{line}</span>
                       {index < addressLines.length - 1 && <br />}
                     </React.Fragment>
                   ))}

@@ -23,6 +23,9 @@ const iconByType: Record<ContactCard['type'], React.ReactNode> = {
 
 export function Contact({ content }: ContactProps) {
   const cards = content.cards ?? [];
+  const brandName = 'Ulrich Motosport';
+  const renderNoTranslate = (text: string) =>
+    text.includes(brandName) ? <span translate="no">{text}</span> : text;
 
   return (
     <section id="contact" className="py-24 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
@@ -68,13 +71,13 @@ export function Contact({ content }: ContactProps) {
                   <h3 className="text-xl text-black dark:text-white mb-2">{card.title}</h3>
                   {card.description && (
                     <span className="text-lg text-zinc-600 dark:text-zinc-400 group-hover:text-yellow-400 transition-colors break-words">
-                      {card.description}
+                      {renderNoTranslate(card.description)}
                     </span>
                   )}
                   {card.lines?.length > 0 && (
                     <div className="text-lg text-zinc-600 dark:text-zinc-400 leading-relaxed space-y-1">
                       {card.lines.map((line, index) => (
-                        <div key={`${line}-${index}`}>{line}</div>
+                        <div key={`${line}-${index}`}>{renderNoTranslate(line)}</div>
                       ))}
                     </div>
                   )}
